@@ -84,11 +84,6 @@ function LoginForm({ onLogin }) {
             Sign in
           </button>
         </form>
-
-        <p className="mt-6 text-center text-xs leading-5 text-gray-500 dark:text-gray-400">
-          Demo only: this form does not verify accounts. Connect a secure authentication
-          service before using it with real POS data.
-        </p>
       </div>
     </section>
   );

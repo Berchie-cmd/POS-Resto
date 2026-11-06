@@ -147,7 +147,8 @@ function CheckoutSection({
             </h3>
             <p className="mt-2 text-green-800 dark:text-green-300">
               Demo confirmation: {money.format(confirmation.totalCents / 100)} by{" "}
-              {confirmation.paymentMethod}. Processed by {operatorRole}.
+              {confirmation.paymentMethod}. Processed by{" "}
+              {operatorRole.charAt(0).toUpperCase() + operatorRole.slice(1)}.
             </p>
             <p className="mt-2 text-sm text-green-800 dark:text-green-300">
               No payment was actually collected or processed.
@@ -305,9 +306,9 @@ function CheckoutSection({
               </div>
 
               <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-8">
-                <h3 className="text-xl font-bold">Processed by</h3>
+                <h3 className="text-xl font-bold">Processing by</h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-300">
-                  {operatorRole}
+                  {operatorRole.charAt(0).toUpperCase() + operatorRole.slice(1)}
                 </p>
                 <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                   Role comes from the signed-in account.
@@ -321,9 +322,6 @@ function CheckoutSection({
               >
                 Confirm order · {money.format(totalCents / 100)}
               </button>
-              <p className="text-center text-xs text-gray-500 dark:text-gray-400">
-                Demo checkout only. This does not process a real payment.
-              </p>
             </div>
           </form>
         )}
