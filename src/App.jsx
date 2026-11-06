@@ -1,122 +1,56 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from "react";
+import Navbar from "./components/NavBar"; // file is named NavBar.jsx
+import Hero from "./components/Hero";
+import FeatureCard from "./components/FeatureCard";
+import Footer from "./components/Footer";
+import { features } from "./data/homeData";
 
 function App() {
-  const [count, setCount] = useState(0)
+  // Dark mode state. It lives here so we can pass it to the Navbar.
+  const [darkMode, setDarkMode] = useState(false);
+  const [activePage, setActivePage] = useState("MENU");
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1 className='text-red-900!'>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    // When darkMode is true, we add the class "dark" so the dark: styles work
+    <div className={darkMode ? "dark" : ""}>
+      <div className="min-h-screen bg-white pt-16 text-gray-800 dark:bg-gray-900 dark:text-gray-100 md:ml-56">
+        {/* Pass the state and the switch function to the Navbar as props */}
+        <Navbar
+          darkMode={darkMode}
+          toggleDark={() => setDarkMode(!darkMode)}
+          activePage={activePage}
+          onNavigate={setActivePage}
+        />
 
-      <div className="ticks"></div>
+        {/* Hero with its text passed as props */}
+        <Hero
+          title="Fast and Easy Restaurant Ordering"
+          subtitle="Manage orders, payments, and menu in one simple system."
+          buttonText="See More"
+        />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {/* Features section */}
+        <section id="features" className="max-w-6xl mx-auto py-16 px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">Features</h2>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+          {/* 1 column on phone, 2 on tablet, 3 on desktop */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* One FeatureCard for each item in the features list */}
+            {features.map((item) => (
+              <FeatureCard
+                key={item.title}
+                image={item.image}
+                title={item.title}
+                description={item.description}
+              />
+            ))}
+          </div>
+        </section>
+
+        <Footer />
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
