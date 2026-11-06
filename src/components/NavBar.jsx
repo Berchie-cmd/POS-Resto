@@ -5,25 +5,28 @@ import { useState } from "react";
 //   toggleDark -> function that switches dark/light
 //   activePage -> string representing the currently active page
 //   onNavigate -> function to handle navigation
-function Navbar({ darkMode, toggleDark, activePage, onNavigate }) {
+//   onLogout   -> function that returns to the sign-in screen
+function Navbar({ darkMode, toggleDark, activePage, onNavigate, onLogout }) {
     // INTERACTIVE FEATURE #1: opens/closes the menu on phones
     const [menuOpen, setMenuOpen] = useState(false);
 
     // Links in the navbar. Edit the names here.
-    const links = ["FEATURES", "FOODS", "DRINKS", "DESERTS", "ORDER", "ABOUT", "USER"];
+    const links = ["FEATURES", "FOODS", "DRINKS", "DESERTS", "CHECKOUT", "ABOUT"];
 
     return (
         <>
             {/* System name and dark mode stay in the top horizontal bar */}
             <header className="fixed inset-x-0 top-0 z-50 h-16 w-auto border-b border-amber-500/30 bg-amber-400 text-amber-950 shadow-md transition-colors duration-300 dark:border-white/10 dark:bg-gray-950 dark:text-white md:left-56">
-                <div className="flex h-full justify-end items-center px-4">
+                <div className="flex h-full items-center justify-between px-4">
+                    <h1 className="text-2xl font-bold">RD's Fudhaws</h1>
                     <div className="flex items-center gap-2">
+
                         {/* Hamburger button: only visible on phones (md:hidden) */}
                         <button
                             onClick={() => setMenuOpen(!menuOpen)}
                             aria-label="Toggle navigation menu"
                             aria-expanded={menuOpen}
-                            className="text-2xl md:hidden"
+                            className="flex justify-self-start text-2xl md:hidden"
                         >
                             ☰
                         </button>
@@ -35,6 +38,15 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate }) {
                         >
                             {darkMode ? "☀️" : "🌙"}
                         </button>
+
+                        {/* End the current demo session and return to sign-in. */}
+                        <button
+                            onClick={onLogout}
+                            className="rounded-lg bg-amber-950 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-900 dark:bg-white dark:text-gray-950 dark:hover:bg-gray-200"
+                        >
+                            <span aria-hidden="true">↪ </span>
+                            Log out
+                        </button>
                     </div>
                 </div>
             </header>
@@ -45,7 +57,7 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate }) {
                 className={`${menuOpen ? "block" : "hidden"} fixed bottom-0 left-0 top-0 z-40 w-56 border-r border-amber-500/30 bg-amber-400 p-4 text-amber-950 shadow-md transition-colors duration-300 dark:border-white/10 dark:bg-gray-950 dark:text-white md:block`}
             >
                 <ul className="flex flex-col gap-2">
-                    <h1 className="flex justify-center text-2xl font-bold">POS Resto</h1>
+                    <h1 className="flex justify-center text-2xl font-bold">MENU</h1>
                     {links.map((link) => (
                         <li key={link}>
                             <button
@@ -60,8 +72,8 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate }) {
                                     setMenuOpen(false);
                                 }}
                                 className={`block w-full rounded-lg px-3 py-2 text-left font-medium transition-colors ${activePage === link
-                                        ? "bg-amber-700 text-white dark:bg-amber-400 dark:text-gray-950"
-                                        : "text-amber-950 hover:bg-amber-500/50 dark:text-gray-200 dark:hover:bg-white/10"
+                                    ? "bg-amber-700 text-white dark:bg-amber-400 dark:text-gray-950"
+                                    : "text-amber-950 hover:bg-amber-500/50 dark:text-gray-200 dark:hover:bg-white/10"
                                     }`}
                             >
                                 {link}
