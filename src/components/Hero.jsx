@@ -4,14 +4,14 @@ function Hero({ title, subtitle, buttonText }) {
   return (
     <section
       id="home"
-      className="relative isolate overflow-hidden bg-gradient-to-br from-amber-50 via-orange-50 to-white px-6 py-16 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800 sm:px-10 lg:py-24"
+      className="relative isolate overflow-hidden bg-linear-to-br from-green-100 via-emerald-50 to-white px-6 py-16 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800 sm:px-10 lg:py-24"
     >
-      <div className="pointer-events-none absolute -right-24 -top-24 -z-10 h-72 w-72 rounded-full bg-orange-200/50 blur-3xl dark:bg-orange-500/10" />
-      <div className="pointer-events-none absolute -bottom-32 left-1/4 -z-10 h-72 w-72 rounded-full bg-amber-200/40 blur-3xl dark:bg-amber-500/10" />
+      <div className="pointer-events-none absolute -right-24 -top-24 -z-10 h-72 w-72 rounded-full bg-emerald-300/35 blur-3xl dark:bg-emerald-500/10" />
+      <div className="pointer-events-none absolute -bottom-32 left-1/4 -z-10 h-72 w-72 rounded-full bg-green-300/40 blur-3xl dark:bg-green-600/10" />
 
       <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
         <div>
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white/80 px-4 py-2 text-sm font-semibold text-orange-800 shadow-sm dark:border-orange-900 dark:bg-gray-800/80 dark:text-orange-200">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-200 bg-white/80 px-4 py-2 text-sm font-semibold text-green-800 shadow-sm dark:border-green-900 dark:bg-gray-800/80 dark:text-green-200">
             <span aria-hidden="true">✦</span>
             Fresh ingredients, made with care
           </div>
@@ -27,7 +27,7 @@ function Hero({ title, subtitle, buttonText }) {
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <a
               href="#features"
-              className="inline-flex items-center gap-2 rounded-xl bg-orange-600 px-6 py-3.5 font-semibold text-white shadow-lg shadow-orange-600/25 transition hover:-translate-y-0.5 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+              className="inline-flex items-center gap-2 rounded-xl bg-green-700 px-6 py-3.5 font-semibold text-white shadow-lg shadow-green-800/25 transition hover:-translate-y-0.5 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
             >
               {buttonText}
               <span aria-hidden="true">→</span>
@@ -40,28 +40,38 @@ function Hero({ title, subtitle, buttonText }) {
         </div>
 
         <div className="relative mx-auto flex aspect-square w-full max-w-md items-center justify-center">
-          <div className="absolute inset-6 rounded-full bg-orange-200/70 blur-2xl dark:bg-orange-500/10" />
-          <div className="relative flex h-64 w-64 items-center justify-center rounded-full border-[12px] border-white bg-gradient-to-br from-orange-100 to-amber-200 text-8xl shadow-2xl shadow-orange-900/10 dark:border-gray-700 dark:from-gray-800 dark:to-gray-700 sm:h-80 sm:w-80 sm:text-9xl">
-            <span role="img" aria-label="A delicious meal">
-              🍽️
-            </span>
+          {/* Soft green glow behind the logo */}
+          <div className="absolute inset-8 rounded-full bg-green-300/40 blur-3xl dark:bg-green-500/20" />
+
+          {/* Decorative rings around the logo */}
+          <div className="absolute h-[85%] w-[85%] rounded-full border border-green-700/15 dark:border-green-300/15" />
+          <div className="absolute h-[72%] w-[72%] rounded-full border border-dashed border-green-700/25 dark:border-green-300/25" />
+
+          {/* Framed restaurant logo */}
+          <div className="relative flex h-[62%] w-[62%] items-center justify-center rounded-full bg-white p-2 shadow-2xl shadow-green-950/20 ring-1 ring-green-900/10 dark:bg-gray-800 dark:ring-white/10">
+            <img
+              src="/restaurant-logo.jpg"
+              alt="RD's Fudhaws restaurant logo"
+              className="h-full w-full rounded-full object-cover"
+            />
           </div>
 
-          <div className="absolute right-0 top-12 rounded-2xl border border-white/80 bg-white/90 px-4 py-3 shadow-lg backdrop-blur dark:border-gray-700 dark:bg-gray-800/90">
+          {/* Floating restaurant highlight */}
+          <div className="absolute right-0 top-[18%] rounded-2xl border border-green-100 bg-white/95 px-4 py-3 shadow-lg backdrop-blur dark:border-gray-700 dark:bg-gray-800/95">
             <p className="text-sm font-bold text-gray-900 dark:text-white">
-              Made fresh
+              Freshly made
             </p>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              Every single day
+              With care, every day
             </p>
           </div>
 
-          <div className="absolute bottom-10 left-0 rounded-2xl border border-white/80 bg-white/90 px-4 py-3 shadow-lg backdrop-blur dark:border-gray-700 dark:bg-gray-800/90">
+          <div className="absolute bottom-[16%] left-0 rounded-2xl border border-green-100 bg-white/95 px-4 py-3 shadow-lg backdrop-blur dark:border-gray-700 dark:bg-gray-800/95">
             <p className="text-sm font-bold text-gray-900 dark:text-white">
-              🍊 Delicious choices
+              RD&apos;s Fudhaws
             </p>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              Find your new favorite
+              Good food, good mood
             </p>
           </div>
         </div>

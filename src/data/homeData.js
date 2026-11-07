@@ -2,32 +2,32 @@
 // To add or edit a card, just change this list. No other code needs to change.
 export const features = [
   {
-    icon: "🍽️",
+    image: "/feature-meal.png",
     title: "Browse the Menu",
     description: "Explore the restaurant's food and drink choices in one place.",
   },
   {
-    icon: "🥗",
+    image: "/feature-salad.png",
     title: "Food Photos",
     description: "See photos of menu items before choosing what to order.",
   },
   {
-    icon: "📂",
+    image: "/feature-menu.png",
     title: "Menu Categories",
     description: "Find foods, drinks, and desserts from the menu.",
   },
   {
-    icon: "🌙",
+    image: "/feature-dark-mode.png",
     title: "Dark and Light Mode",
     description: "Switch between themes for a more comfortable viewing experience.",
   },
   {
-    icon: "📱",
+    image: "/feature-mobile.png",
     title: "Mobile-Friendly Layout",
     description: "Use the restaurant website on phones, tablets, and computers.",
   },
   {
-    icon: "ℹ️",
+    image: "/feature-info.png",
     title: "Restaurant Information",
     description: "Find information about the restaurant and its menu.",
   },

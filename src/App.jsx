@@ -8,19 +8,151 @@ import LoginForm from "./components/LoginForm";
 // Sample menu items. Replace these with your restaurant's actual menu and prices.
 const menu = {
   foods: [
-    { icon: "🍔", name: "Classic Burger", detail: "Beef, lettuce, tomato, house sauce", price: 20, tag: "Guest favorite" },
-    { icon: "🍕", name: "Cheese Pizza", detail: "Tomato sauce, mozzarella, fresh basil", price: 100, tag: "Made fresh" },
-    { icon: "🍝", name: "Creamy Pasta", detail: "Parmesan, herbs, creamy house sauce", price: 30, tag: "Comfort food" },
+    {
+      image: "/HUNGARIAN SAUSAGE.jpg",
+      name: "HUNGARIAN SAUSAGE",
+      detail: "Grilled sausage with your choice of sauce",
+      price: 95, // NOT SURE PRICE
+      tag: "Guest favorite",
+    },
+    {
+      image: "/BABY BACKRIBS.jpg",
+      name: "BABY BACK RIBS",
+      detail: "Slow-cooked until tender, these ribs are coated in our smoky barbecue glaze and grilled for a rich, savory finish.",
+      price: 110,
+      tag: "Made fresh",
+    },
+    {
+      image: "/TAPA.jpg",
+      name: "TAPA",
+      detail: "Golden, crispy pork belly with a tender center, served with your choice of sauce for a deliciously savory bite.",
+      price: 100,
+      tag: "Comfort food",
+    },
+    {
+      image: "/CHICKEN WINGS.jpg",
+      name: "CHICKEN WINGS",
+      detail: "Crispy chicken wings with your choice of sauce",
+      price: 110,
+      tag: "Comfort food",
+    },
+    {
+      image: "/LECHON KAWALI.jpg",
+      name: "LECHON KAWALI",
+      detail: "Crispy pork with your choice of sauce",
+      price: 105,
+      tag: "Comfort food",
+    },
+
+    {
+      image: "/PORKCHOP.jpg",
+      name: "PORKCHOP",
+      detail: "Tender pork with a aromaticsmoky barbecue glaze",
+      price: 110, // NOT SURE PRICE
+      tag: "Made fresh",
+    },
+    {
+      image: "/SISIG.jpg",
+      name: "SISIG",
+      detail: "Sizzling chopped pork with savory seasoning.",
+      price: 110,
+      tag: "Guest favorite",
+    },
+    {
+      image: "/BANGUS.jpg",
+      name: "BANGUS",
+      detail: "A traditional Filipino fish dish, typically grilled or fried and served with a savory sauce",
+      price: 100, // NOT SURE PRICE
+      tag: "Guest favorite",
+    },
+    {
+      image: "/CHOPSUEY.jpg",
+      name: "CHOPSUEY",
+      detail: "Stir-fried vegetables in a savory sauce.",
+      price: 75, // NOT SURE PRICE
+      tag: "Guest favorite",
+    },
+    {
+      image: "/TOKWA'T BABOY.jpg",
+      name: "TOKWA'T BABOY",
+      detail: "A traditional Filipino dish made with pork and vegetables",
+      price: 85,
+      tag: "Guest favorite",
+    },
+    {
+      image: "/PORKSTEAK.jpg",
+      name: "PORKSTEAK",
+      detail: "A tender piece of pork, seasoned and grilled to perfection",
+      price: 115, // NOT SURE PRICE
+      tag: "Guest favorite",
+    },
+    {
+      image: "/BARBECUE LIEMPO.jpg",
+      name: "BARBECUE LIEMPO",
+      detail: "A tender piece of pork, seasoned and grilled to perfection",
+      price: 115,
+      tag: "Guest favorite",
+    },
+    {
+      image: "/FRIED CHICKEN.jpg",
+      name: "FRIED CHICKEN",
+      detail: "Crispy fried chicken with a savory glaze",
+      price: 110, // NOT SURE PRICE
+      tag: "Guest favorite",
+    },
+    {
+      image: "/CRISPY LIEMPO.jpg",
+      name: "CRISPY LIEMPO",
+      detail: "Crispy pork belly with a savory glaze",
+      price: 115,
+      tag: "Guest favorite",
+    },
   ],
   drinks: [
-    { icon: "🍋", name: "Fresh Lemonade", detail: "Freshly squeezed and served chilled", price: 15, tag: "Refreshing" },
-    { icon: "☕", name: "Iced Coffee", detail: "Smooth coffee served over ice", price: 30, tag: "Popular" },
-    { icon: "🥤", name: "Fruit Cooler", detail: "A bright, fruity drink served cold", price: 30, tag: "Chilled" },
+    {
+      image: "/drink-lemonade.png",
+      name: "Fresh Lemonade",
+      detail: "Freshly squeezed and served chilled",
+      price: 15,
+      tag: "Refreshing",
+    },
+    {
+      image: "/drink-coffee.png",
+      name: "Iced Coffee",
+      detail: "Smooth coffee served over ice",
+      price: 30,
+      tag: "Popular",
+    },
+    {
+      image: "/drink-cup.png",
+      name: "Fruit Cooler",
+      detail: "A bright, fruity drink served cold",
+      price: 30,
+      tag: "Chilled",
+    },
   ],
   desserts: [
-    { icon: "🍰", name: "Chocolate Cake", detail: "Rich chocolate with a soft center", price: 50, tag: "Sweet pick" },
-    { icon: "🍮", name: "Caramel Pudding", detail: "Silky custard with caramel", price: 55, tag: "House favorite" },
-    { icon: "🍨", name: "Ice Cream", detail: "Ask us about today's flavors", price: 3.45, tag: "Cool treat" },
+    {
+      image: "/BUTTERED CORN.jpg",
+      name: "BUTTERED CORN",
+      detail: "Buttered corn on the cob with a hint of salt and pepper",
+      price: 80, // NOT SURE PRICE
+      tag: "Sweet pick",
+    },
+    {
+      image: "/PANCIT BIHON.jpg",
+      name: "PANCIT BIHON",
+      detail: "A traditional Filipino noodle dish with vegetables",
+      price: 25, // NOT SURE PRICE
+      tag: "Sweet pick",
+    },
+    {
+      image: "/PANCIT CANTON.jpg",
+      name: "PANCIT CANTON",
+      detail: "A traditional Filipino noodle dish with vegetables",
+      price: 25, // NOT SURE PRICE
+      tag: "Sweet pick",
+    },
   ],
 };
 
@@ -32,15 +164,20 @@ const money = new Intl.NumberFormat("en-US", {
 // Reusable menu item card.
 function MenuCard({ item, onAdd }) {
   return (
-    <article className="group overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800">
-      <div className="flex h-40 items-center justify-center bg-gradient-to-br from-orange-100 via-amber-50 to-white text-7xl transition group-hover:scale-[1.02] dark:from-gray-700 dark:via-gray-800 dark:to-gray-800">
-        <span role="img" aria-label={item.name}>{item.icon}</span>
+    <article className="group overflow-hidden rounded-3xl border border-green-200 bg-white shadow-sm shadow-green-950/5 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-green-950/10 dark:border-gray-700 dark:bg-gray-800">
+      <div className="h-40 overflow-hidden bg-linear-to-br from-green-100 via-emerald-50 to-white transition dark:from-gray-700 dark:via-gray-800 dark:to-gray-800">
+        <img
+          src={item.image}
+          alt={item.name}
+          loading="lazy"
+          className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+        />
       </div>
 
       <div className="p-5">
         <div className="mb-3 flex items-start justify-between gap-3">
           <h3 className="text-xl font-bold">{item.name}</h3>
-          <span className="whitespace-nowrap rounded-full bg-orange-100 px-3 py-1 text-sm font-bold text-orange-800 dark:bg-orange-950 dark:text-orange-200">
+          <span className="whitespace-nowrap rounded-full bg-green-100 px-3 py-1 text-sm font-bold text-green-900 dark:bg-green-950 dark:text-green-200">
             {money.format(item.price)}
           </span>
         </div>
@@ -49,13 +186,13 @@ function MenuCard({ item, onAdd }) {
           {item.detail}
         </p>
 
-        <span className="inline-flex rounded-full border border-orange-200 px-3 py-1 text-xs font-semibold text-orange-800 dark:border-orange-900 dark:text-orange-200">
+        <span className="mt-5 inline-flex rounded-full border border-green-200 px-3 py-1 text-xs font-semibold text-green-800 dark:border-green-900 dark:text-green-200">
           {item.tag}
         </span>
         <button
           type="button"
           onClick={() => onAdd(item)}
-          className="mt-5 w-full rounded-xl bg-orange-600 px-4 py-3 font-bold text-white transition hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+          className="mt-5 w-full rounded-xl bg-green-700 px-4 py-3 font-bold text-white shadow-md shadow-green-900/15 transition hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
         >
           Add to order
         </button>
@@ -71,17 +208,19 @@ function MenuSection({ id, title, subtitle, items, onAdd }) {
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-orange-600 dark:text-orange-400">
+            <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-green-700 dark:text-green-400">
               From our kitchen
             </p>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              {title}
+            </h2>
             <p className="mt-2 text-gray-600 dark:text-gray-300">{subtitle}</p>
           </div>
 
           {/* Jump to ordering information further down the page. */}
           <a
             href="#checkout"
-            className="font-semibold text-orange-700 hover:text-orange-900 dark:text-orange-300 dark:hover:text-orange-200"
+            className="font-semibold text-green-800 hover:text-green-950 dark:text-green-300 dark:hover:text-green-200"
           >
             How to order <span aria-hidden="true">→</span>
           </a>
@@ -115,7 +254,7 @@ function CheckoutSection({
   );
   const discountCents =
     hasDiscountCard && discountCardNumber.trim()
-      ? Math.min(50000, subtotalCents)
+      ? Math.min(500, subtotalCents)
       : 0;
   const totalCents = subtotalCents - discountCents;
 
@@ -131,56 +270,69 @@ function CheckoutSection({
     <section id="checkout" className="scroll-mt-20 px-5 py-16 sm:px-8">
       <div className="mx-auto max-w-6xl">
         <div className="mb-8">
-          <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-orange-600 dark:text-orange-400">
+          <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-green-700 dark:text-green-400">
             Review and pay
           </p>
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Checkout</h2>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            Checkout
+          </h2>
           <p className="mt-2 text-gray-600 dark:text-gray-300">
             Review the order, select a payment method, and confirm.
           </p>
         </div>
 
         {confirmation ? (
-          <div className="rounded-3xl border border-green-200 bg-green-50 p-8 dark:border-green-900 dark:bg-green-950/40">
-            <h3 className="text-2xl font-bold text-green-900 dark:text-green-200">
+          <div className="rounded-3xl border border-green-300 bg-green-100 p-8 dark:border-green-900 dark:bg-green-950/50">
+            <h3 className="text-2xl font-bold text-green-950 dark:text-green-200">
               Order confirmed
             </h3>
-            <p className="mt-2 text-green-800 dark:text-green-300">
-              Demo confirmation: {money.format(confirmation.totalCents / 100)} by{" "}
-              {confirmation.paymentMethod}. Processed by{" "}
+            <p className="mt-2 text-green-900 dark:text-green-300">
+              Demo confirmation: {money.format(confirmation.totalCents / 100)}{" "}
+              by {confirmation.paymentMethod}. Processed by{" "}
               {operatorRole.charAt(0).toUpperCase() + operatorRole.slice(1)}.
             </p>
-            <p className="mt-2 text-sm text-green-800 dark:text-green-300">
+            <p className="mt-2 text-sm text-green-900 dark:text-green-300">
               No payment was actually collected or processed.
             </p>
             <button
               type="button"
               onClick={() => setConfirmation(null)}
-              className="mt-6 rounded-xl bg-green-700 px-5 py-3 font-bold text-white hover:bg-green-800"
+              className="mt-6 rounded-xl bg-green-800 px-5 py-3 font-bold text-white hover:bg-green-900"
             >
               Start a new order
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-8">
+          <form
+            onSubmit={handleSubmit}
+            className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]"
+          >
+            <div className="rounded-3xl border border-green-200 bg-white p-6 shadow-sm shadow-green-950/5 dark:border-gray-700 dark:bg-gray-800 sm:p-8">
               <h3 className="text-xl font-bold">Order summary</h3>
 
               {cart.length === 0 ? (
-                <div className="mt-6 rounded-2xl bg-orange-50 p-6 text-center dark:bg-gray-900">
+                <div className="mt-6 rounded-2xl bg-green-50 p-6 text-center dark:bg-gray-900">
                   <p className="font-semibold">Your order is empty.</p>
                   <a
                     href="#foods"
-                    className="mt-3 inline-block font-semibold text-orange-700 hover:text-orange-900 dark:text-orange-300"
+                    className="mt-3 inline-block font-semibold text-green-800 hover:text-green-950 dark:text-green-300"
                   >
                     Browse the menu
                   </a>
                 </div>
               ) : (
-                <ul className="mt-5 divide-y divide-orange-100 dark:divide-gray-700">
+                <ul className="mt-5 divide-y divide-green-100 dark:divide-gray-700">
                   {cart.map((item) => (
-                    <li key={item.name} className="flex items-center gap-4 py-4">
-                      <span className="text-3xl" aria-hidden="true">{item.icon}</span>
+                    <li
+                      key={item.name}
+                      className="flex items-center gap-4 py-4"
+                    >
+                      <img
+                        src={item.image}
+                        alt=""
+                        aria-hidden="true"
+                        className="h-12 w-12 rounded-lg object-cover"
+                      />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-semibold">{item.name}</p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -215,7 +367,7 @@ function CheckoutSection({
                         type="button"
                         onClick={() => onRemove(item.name)}
                         aria-label={`Remove ${item.name}`}
-                        className="text-sm font-semibold text-red-600 hover:text-red-800"
+                        className="text-sm font-semibold text-green-600 hover:text-green-800"
                       >
                         Remove
                       </button>
@@ -224,13 +376,13 @@ function CheckoutSection({
                 </ul>
               )}
 
-              <div className="mt-5 space-y-3 border-t border-orange-100 pt-5 dark:border-gray-700">
+              <div className="mt-5 space-y-3 border-t border-green-100 pt-5 dark:border-gray-700">
                 <div className="flex justify-between text-gray-600 dark:text-gray-300">
                   <span>Subtotal</span>
                   <span>{money.format(subtotalCents / 100)}</span>
                 </div>
                 {discountCents > 0 && (
-                  <div className="flex justify-between text-green-700 dark:text-green-300">
+                  <div className="flex justify-between text-green-800 dark:text-green-300">
                     <span>Discount card</span>
                     <span>−{money.format(discountCents / 100)}</span>
                   </div>
@@ -243,19 +395,19 @@ function CheckoutSection({
             </div>
 
             <div className="space-y-6">
-              <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-8">
+              <div className="rounded-3xl border border-green-200 bg-white p-6 shadow-sm shadow-green-950/5 dark:border-gray-700 dark:bg-gray-800 sm:p-8">
                 <h3 className="text-xl font-bold">Payment method</h3>
                 <div className="mt-4 grid gap-3">
                   {[
-                    ["cash", "💵", "Cash"],
-                    ["card", "💳", "Card"],
-                    ["e-wallet", "📱", "E-wallet"],
-                  ].map(([value, icon, label]) => (
+                    ["cash", "/payment-cash.png", "Cash"],
+                    ["card", "/payment-card.png", "Card"],
+                    ["e-wallet", "/payment-ewallet.png", "E-wallet"],
+                  ].map(([value, image, label]) => (
                     <label
                       key={value}
                       className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition ${
                         paymentMethod === value
-                          ? "border-orange-500 bg-orange-50 dark:bg-orange-950/30"
+                          ? "border-green-600 bg-green-50 dark:bg-green-950/40"
                           : "border-gray-200 dark:border-gray-700"
                       }`}
                     >
@@ -264,48 +416,63 @@ function CheckoutSection({
                         name="paymentMethod"
                         value={value}
                         checked={paymentMethod === value}
-                        onChange={(event) => setPaymentMethod(event.target.value)}
-                        className="accent-orange-600"
+                        onChange={(event) =>
+                          setPaymentMethod(event.target.value)
+                        }
+                        className="accent-green-700"
                       />
-                      <span aria-hidden="true">{icon}</span>
+                      <img
+                        src={image}
+                        alt=""
+                        aria-hidden="true"
+                        className="h-8 w-8 object-contain"
+                      />
                       <span className="font-semibold">{label}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-8">
+              <div className="rounded-3xl border border-green-200 bg-white p-6 shadow-sm shadow-green-950/5 dark:border-gray-700 dark:bg-gray-800 sm:p-8">
                 <h3 className="text-xl font-bold">Discount card</h3>
                 <label className="mt-4 flex items-center gap-3">
                   <input
                     type="checkbox"
                     checked={hasDiscountCard}
-                    onChange={(event) => setHasDiscountCard(event.target.checked)}
-                    className="h-4 w-4 accent-orange-600"
+                    onChange={(event) =>
+                      setHasDiscountCard(event.target.checked)
+                    }
+                    className="h-4 w-4 accent-green-700"
                   />
                   <span>I have a discount card</span>
                 </label>
                 {hasDiscountCard && (
                   <div className="mt-4">
-                    <label htmlFor="discount-card" className="mb-2 block text-sm font-semibold">
+                    <label
+                      htmlFor="discount-card"
+                      className="mb-2 block text-sm font-semibold"
+                    >
                       Discount card number
                     </label>
                     <input
                       id="discount-card"
                       value={discountCardNumber}
-                      onChange={(event) => setDiscountCardNumber(event.target.value)}
+                      onChange={(event) =>
+                        setDiscountCardNumber(event.target.value)
+                      }
                       required
                       placeholder="Enter card number"
                       className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 dark:border-gray-600 dark:bg-gray-900"
                     />
                     <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                      Demo rule: entering a card applies ₱500 off. Card validity is not checked.
+                      Demo rule: entering a card applies ₱500 off. Card validity
+                      is not checked.
                     </p>
                   </div>
                 )}
               </div>
 
-              <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-8">
+              <div className="rounded-3xl border border-green-200 bg-white p-6 shadow-sm shadow-green-950/5 dark:border-gray-700 dark:bg-gray-800 sm:p-8">
                 <h3 className="text-xl font-bold">Processing by</h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-300">
                   {operatorRole.charAt(0).toUpperCase() + operatorRole.slice(1)}
@@ -318,7 +485,7 @@ function CheckoutSection({
               <button
                 type="submit"
                 disabled={cart.length === 0}
-                className="w-full rounded-xl bg-orange-600 px-5 py-4 font-bold text-white shadow-lg transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full rounded-xl bg-green-700 px-5 py-4 font-bold text-white shadow-lg shadow-green-900/20 transition hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Confirm order · {money.format(totalCents / 100)}
               </button>
@@ -342,7 +509,9 @@ function App() {
 
   function addToCart(item) {
     setCart((currentCart) => {
-      const existingItem = currentCart.find((cartItem) => cartItem.name === item.name);
+      const existingItem = currentCart.find(
+        (cartItem) => cartItem.name === item.name,
+      );
 
       if (existingItem) {
         return currentCart.map((cartItem) =>
@@ -379,116 +548,121 @@ function App() {
           }}
         />
       ) : (
-      <div className="min-h-screen bg-[#fffaf4] pt-16 text-gray-900 transition-colors dark:bg-gray-950 dark:text-gray-100 md:ml-56">
-        {/* Pass the theme and navigation controls to the navbar. */}
-        <Navbar
-          darkMode={darkMode}
-          toggleDark={() => setDarkMode((current) => !current)}
-          activePage={activePage}
-          onNavigate={setActivePage}
-          onLogout={() => {
-            setCart([]);
-            setOperatorRole("");
-            setActivePage("FEATURES");
-            setIsSignedIn(false);
-          }}
-        />
+        <div className="min-h-screen bg-[#f3faf5] pt-16 text-gray-900 transition-colors dark:bg-gray-950 dark:text-gray-100 md:ml-56">
+          {/* Pass the theme and navigation controls to the navbar. */}
+          <Navbar
+            darkMode={darkMode}
+            toggleDark={() => setDarkMode((current) => !current)}
+            activePage={activePage}
+            onNavigate={setActivePage}
+            onLogout={() => {
+              setCart([]);
+              setOperatorRole("");
+              setActivePage("FEATURES");
+              setIsSignedIn(false);
+            }}
+          />
 
-        {/* Main welcome banner. */}
-        <Hero
-          title="Good food. Good mood."
-          subtitle="Discover comforting favorites, refreshing drinks, and sweet treats—all in one place."
-          buttonText="Explore the menu"
-        />
+          {/* Main welcome banner. */}
+          <Hero
+            title="Good food. Good mood."
+            subtitle="Discover comforting favorites, refreshing drinks, and sweet treats—all in one place."
+            buttonText="Explore the menu"
+          />
 
-        {/* Website features loaded from homeData.js. */}
-        <section id="features" className="scroll-mt-20 px-5 py-16 sm:px-8">
-          <div className="mx-auto max-w-6xl">
-            <div className="mb-8 text-center">
-              <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-orange-600 dark:text-orange-400">
-                A better dining experience
-              </p>
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Made for you</h2>
-              <p className="mx-auto mt-3 max-w-2xl text-gray-600 dark:text-gray-300">
-                Everything you need to explore our menu and enjoy your visit.
-              </p>
+          {/* Website features loaded from homeData.js. */}
+          <section id="features" className="scroll-mt-20 px-5 py-16 sm:px-8">
+            <div className="mx-auto max-w-6xl">
+              <div className="mb-8 text-center">
+                <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-green-700 dark:text-green-400">
+                  A better dining experience
+                </p>
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                  Made for you
+                </h2>
+                <p className="mx-auto mt-3 max-w-2xl text-gray-600 dark:text-gray-300">
+                  Everything you need to explore our menu and enjoy your visit.
+                </p>
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {features.map((item) => (
+                  <FeatureCard
+                    key={item.title}
+                    image={item.image}
+                    title={item.title}
+                    description={item.description}
+                  />
+                ))}
+              </div>
             </div>
+          </section>
 
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((item) => (
-                <FeatureCard
-                  key={item.title}
-                  icon={item.icon}
-                  title={item.title}
-                  description={item.description}
-                />
-              ))}
-            </div>
+          {/* These IDs match the sidebar links, so clicking a link scrolls here. */}
+          <div className="border-y border-green-200 bg-green-50/80 dark:border-gray-800 dark:bg-gray-900/70">
+            <MenuSection
+              id="foods"
+              title="Food Meals"
+              subtitle="Freshly prepared picks for a satisfying meal."
+              items={menu.foods}
+              onAdd={addToCart}
+            />
           </div>
-        </section>
 
-        {/* These IDs match the sidebar links, so clicking a link scrolls here. */}
-        <div className="border-y border-orange-100 bg-orange-50/70 dark:border-gray-800 dark:bg-gray-900/70">
           <MenuSection
-            id="foods"
-            title="Food favorites"
-            subtitle="Freshly prepared picks for a satisfying meal."
-            items={menu.foods}
+            id="drinks"
+            title="Drinks"
+            subtitle="A refreshing sip to go with your meal."
+            items={menu.drinks}
             onAdd={addToCart}
           />
-        </div>
 
-        <MenuSection
-          id="drinks"
-          title="Drinks"
-          subtitle="A refreshing sip to go with your meal."
-          items={menu.drinks}
-          onAdd={addToCart}
-        />
-
-        {/* The section ID "deserts" matches the current DESERTS navbar label. */}
-        <div className="border-y border-orange-100 bg-orange-50/70 dark:border-gray-800 dark:bg-gray-900/70">
-          <MenuSection
-            id="deserts"
-            title="Desserts"
-            subtitle="Save a little room for something sweet."
-            items={menu.desserts}
-            onAdd={addToCart}
-          />
-        </div>
-
-        {/* Cart summary, payment selection, discount, and order confirmation. */}
-        <CheckoutSection
-          cart={cart}
-          operatorRole={operatorRole}
-          onQuantityChange={changeQuantity}
-          onRemove={(itemName) =>
-            setCart((currentCart) =>
-              currentCart.filter((item) => item.name !== itemName),
-            )
-          }
-          onComplete={() => setCart([])}
-        />
-
-        {/* Restaurant introduction. Update this with your real story and details. */}
-        <section id="about" className="scroll-mt-20 border-t border-orange-100 px-5 py-14 dark:border-gray-800 sm:px-8">
-          <div className="mx-auto max-w-6xl">
-            <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-orange-600 dark:text-orange-400">
-              About us
-            </p>
-            <h2 className="text-3xl font-bold">Welcome to POS Resto</h2>
-            <p className="mt-3 max-w-2xl leading-7 text-gray-600 dark:text-gray-300">
-              We make it easy to browse the menu and find something delicious.
-              Our team is happy to help you choose.
-            </p>
+          {/* The section ID "deserts" matches the current DESERTS navbar label. */}
+          <div className="border-y border-green-200 bg-green-50/80 dark:border-gray-800 dark:bg-gray-900/70">
+            <MenuSection
+              id="deserts"
+              title="Merienda Combo"
+              subtitle="Save a little room for our delicious merienda break"
+              items={menu.desserts}
+              onAdd={addToCart}
+            />
           </div>
-        </section>
 
-        {/* Simple site footer. */}
-        <footer className="border-t border-orange-100 px-5 py-6 text-center text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400">
-          © 2026 POS Resto · Good food, served with care.
-        </footer>
-      </div>
+          {/* Cart summary, payment selection, discount, and order confirmation. */}
+          <CheckoutSection
+            cart={cart}
+            operatorRole={operatorRole}
+            onQuantityChange={changeQuantity}
+            onRemove={(itemName) =>
+              setCart((currentCart) =>
+                currentCart.filter((item) => item.name !== itemName),
+              )
+            }
+            onComplete={() => setCart([])}
+          />
+
+          {/* Restaurant introduction. Update this with your real story and details. */}
+          <section
+            id="about"
+            className="scroll-mt-20 border-t border-green-200 px-5 py-14 dark:border-gray-800 sm:px-8"
+          >
+            <div className="mx-auto max-w-6xl">
+              <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-green-700 dark:text-green-400">
+                About us
+              </p>
+              <h2 className="text-3xl font-bold">Welcome to POS Resto</h2>
+              <p className="mt-3 max-w-2xl leading-7 text-gray-600 dark:text-gray-300">
+                We make it easy to browse the menu and find something delicious.
+                Our team is happy to help you choose.
+              </p>
+            </div>
+          </section>
+
+          {/* Simple site footer. */}
+          <footer className="border-t border-green-200 px-5 py-6 text-center text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400">
+            © 2026 POS Resto · Good food, served with care.
+          </footer>
+        </div>
       )}
     </div>
   );
