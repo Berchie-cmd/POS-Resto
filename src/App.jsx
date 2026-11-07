@@ -326,52 +326,59 @@ function CheckoutSection({
                   {cart.map((item) => (
                     <li
                       key={item.name}
-                      className="flex items-center gap-4 py-4"
+                      // flex-wrap lets the row break into two lines on small screens
+                      className="flex flex-wrap items-center gap-x-4 gap-y-3 py-4"
                     >
                       <img
                         src={item.image}
                         alt=""
                         aria-hidden="true"
-                        className="h-12 w-12 rounded-lg object-cover"
+                        className="h-12 w-12 shrink-0 rounded-lg object-cover"
                       />
-                      <div className="min-w-0 flex-1">
+
+                      {/* Name and price each. basis-32 = minimum width before wrapping */}
+                      <div className="min-w-0 flex-1 basis-32">
                         <p className="truncate font-semibold">{item.name}</p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
                           {money.format(item.price)} each
                         </p>
                       </div>
-                      <div className="flex items-center gap-2">
+
+                      {/* Quantity, total, and Remove: full width on phones, auto width on sm+ */}
+                      <div className="flex w-full items-center justify-between gap-3 sm:w-auto sm:justify-end sm:gap-4">
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            aria-label={`Decrease ${item.name} quantity`}
+                            onClick={() => onQuantityChange(item.name, -1)}
+                            className="h-8 w-8 rounded-full border border-gray-300 font-bold dark:border-gray-600"
+                          >
+                            −
+                          </button>
+                          <span className="w-6 text-center">{item.quantity}</span>
+                          <button
+                            type="button"
+                            aria-label={`Increase ${item.name} quantity`}
+                            onClick={() => onQuantityChange(item.name, 1)}
+                            className="h-8 w-8 rounded-full border border-gray-300 font-bold dark:border-gray-600"
+                          >
+                            +
+                          </button>
+                        </div>
+
+                        <span className="text-right font-semibold sm:w-20">
+                          {money.format((Math.round(item.price * 100) * item.quantity) / 100)}
+                        </span>
+
                         <button
                           type="button"
-                          aria-label={`Decrease ${item.name} quantity`}
-                          onClick={() => onQuantityChange(item.name, -1)}
-                          className="h-8 w-8 rounded-full border border-gray-300 font-bold dark:border-gray-600"
+                          onClick={() => onRemove(item.name)}
+                          aria-label={`Remove ${item.name}`}
+                          className="text-sm font-semibold text-green-600 hover:text-green-800"
                         >
-                          −
-                        </button>
-                        <span className="w-6 text-center">{item.quantity}</span>
-                        <button
-                          type="button"
-                          aria-label={`Increase ${item.name} quantity`}
-                          onClick={() => onQuantityChange(item.name, 1)}
-                          className="h-8 w-8 rounded-full border border-gray-300 font-bold dark:border-gray-600"
-                        >
-                          +
+                          Remove
                         </button>
                       </div>
-                      <span className="w-20 text-right font-semibold">
-                        {money.format(
-                          (Math.round(item.price * 100) * item.quantity) / 100,
-                        )}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => onRemove(item.name)}
-                        aria-label={`Remove ${item.name}`}
-                        className="text-sm font-semibold text-green-600 hover:text-green-800"
-                      >
-                        Remove
-                      </button>
                     </li>
                   ))}
                 </ul>
@@ -407,8 +414,8 @@ function CheckoutSection({
                     <label
                       key={value}
                       className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition ${paymentMethod === value
-                          ? "border-green-600 bg-green-50 dark:bg-green-950/40"
-                          : "border-gray-200 dark:border-gray-700"
+                        ? "border-green-600 bg-green-50 dark:bg-green-950/40"
+                        : "border-gray-200 dark:border-gray-700"
                         }`}
                     >
                       <input
@@ -548,7 +555,7 @@ function App() {
           }}
         />
       ) : (
-        <div className="min-h-screen bg-[#f3faf5] pt-16 text-gray-900 transition-colors dark:bg-gray-950 dark:text-gray-100 md:ml-56">
+        <div className="min-h-screen overflow-x-hidden bg-[#f3faf5] pt-16 text-gray-900 transition-colors dark:bg-gray-950 dark:text-gray-100 md:ml-56">
           {/* Pass the theme and navigation controls to the navbar. */}
           <Navbar
             darkMode={darkMode}
