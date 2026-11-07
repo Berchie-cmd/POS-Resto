@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Navbar from "./components/NavBar";
 import Hero from "./components/Hero";
 import FeatureCard from "./components/FeatureCard";
@@ -262,8 +262,25 @@ function CheckoutSection({
     event.preventDefault();
     if (cart.length === 0) return;
 
-    setConfirmation({ totalCents, paymentMethod });
+    const completedAt = new Date();
+    setConfirmation({
+      orderNumber: `POS-${completedAt.getTime()}`,
+      completedAt: completedAt.toLocaleString(),
+      items: cart.map((item) => ({ ...item })),
+      subtotalCents,
+      discountCents,
+      totalCents,
+      paymentMethod,
+      operatorRole,
+    });
     onComplete();
+  }
+
+  function startNewOrder() {
+    setConfirmation(null);
+    setPaymentMethod("cash");
+    setHasDiscountCard(false);
+    setDiscountCardNumber("");
   }
 
   return (
@@ -282,22 +299,90 @@ function CheckoutSection({
         </div>
 
         {confirmation ? (
-          <div className="rounded-3xl border border-green-300 bg-green-100 p-8 dark:border-green-900 dark:bg-green-950/50">
-            <h3 className="text-2xl font-bold text-green-950 dark:text-green-200">
-              Order confirmed
-            </h3>
-            <p className="mt-2 text-green-900 dark:text-green-300">
-              Demo confirmation: {money.format(confirmation.totalCents / 100)}{" "}
-              by {confirmation.paymentMethod}. Processed by{" "}
-              {operatorRole.charAt(0).toUpperCase() + operatorRole.slice(1)}.
-            </p>
-            <button
-              type="button"
-              onClick={() => setConfirmation(null)}
-              className="mt-6 rounded-xl bg-green-800 px-5 py-3 font-bold text-white hover:bg-green-900"
-            >
-              Start a new order
-            </button>
+          <div>
+            <div className="receipt-print mx-auto max-w-md rounded-3xl border border-green-300 bg-white p-8 text-gray-900 shadow-sm dark:border-green-900 dark:bg-white dark:text-gray-900">
+              <div className="text-center">
+                <h3 className="text-2xl font-bold">POS Resto</h3>
+                <p className="mt-1 text-sm">Order receipt</p>
+                <p className="mt-4 text-left text-sm">
+                  Order: {confirmation.orderNumber}
+                  <br />
+                  Date: {confirmation.completedAt}
+                  <br />
+                  Served by:{" "}
+                  {confirmation.operatorRole.charAt(0).toUpperCase() +
+                    confirmation.operatorRole.slice(1)}
+                </p>
+              </div>
+
+              <div className="my-5 border-t border-dashed border-gray-400" />
+              <ul className="space-y-3">
+                {confirmation.items.map((item) => (
+                  <li
+                    key={item.name}
+                    className="flex justify-between gap-4 text-sm"
+                  >
+                    <span>
+                      {item.name} × {item.quantity}
+                      <span className="block text-gray-600">
+                        {money.format(item.price)} each
+                      </span>
+                    </span>
+                    <span className="shrink-0 font-semibold">
+                      {money.format(
+                        (Math.round(item.price * 100) * item.quantity) / 100,
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="my-5 border-t border-dashed border-gray-400" />
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span>Subtotal</span>
+                  <span>{money.format(confirmation.subtotalCents / 100)}</span>
+                </div>
+                {confirmation.discountCents > 0 && (
+                  <div className="flex justify-between">
+                    <span>Discount card</span>
+                    <span>
+                      −{money.format(confirmation.discountCents / 100)}
+                    </span>
+                  </div>
+                )}
+                <div className="flex justify-between text-lg font-bold">
+                  <span>Total</span>
+                  <span>{money.format(confirmation.totalCents / 100)}</span>
+                </div>
+                <p className="pt-2">
+                  Payment:{" "}
+                  {{
+                    cash: "Cash",
+                    card: "Card",
+                    "e-wallet": "E-wallet",
+                  }[confirmation.paymentMethod]}
+                </p>
+              </div>
+              <p className="mt-6 text-center text-sm">Thank you!</p>
+            </div>
+
+            <div className="receipt-actions mt-6 flex flex-wrap justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="rounded-xl bg-green-800 px-5 py-3 font-bold text-white hover:bg-green-900"
+              >
+                Print receipt
+              </button>
+              <button
+                type="button"
+                onClick={startNewOrder}
+                className="rounded-xl border border-green-800 px-5 py-3 font-bold text-green-900 hover:bg-green-50 dark:text-green-200 dark:hover:bg-green-950"
+              >
+                Start a new order
+              </button>
+            </div>
           </div>
         ) : (
           <form
@@ -503,9 +588,16 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [operatorRole, setOperatorRole] = useState("");
   const [cart, setCart] = useState([]);
+  const [cartNotice, setCartNotice] = useState("");
+  const cartNoticeTimer = useRef(null);
 
   // The navbar uses this value to highlight the selected menu option.
   const [activePage, setActivePage] = useState("FEATURES");
+
+  useEffect(
+    () => () => window.clearTimeout(cartNoticeTimer.current),
+    [],
+  );
 
   function addToCart(item) {
     setCart((currentCart) => {
@@ -523,6 +615,11 @@ function App() {
 
       return [...currentCart, { ...item, quantity: 1 }];
     });
+    window.clearTimeout(cartNoticeTimer.current);
+    setCartNotice(`${item.name} added to your order`);
+    cartNoticeTimer.current = window.setTimeout(() => {
+      setCartNotice("");
+    }, 2500);
   }
 
   function changeQuantity(itemName, change) {
@@ -562,6 +659,23 @@ function App() {
               setIsSignedIn(false);
             }}
           />
+
+          {cartNotice && (
+            <div
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              className="fixed left-4 right-4 top-20 z-50 mx-auto flex max-w-sm items-center gap-3 rounded-xl border border-green-200 bg-white px-4 py-3 font-semibold text-green-900 shadow-lg dark:border-green-800 dark:bg-gray-800 dark:text-green-200 sm:left-auto sm:right-6"
+            >
+              <span
+                aria-hidden="true"
+                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-200"
+              >
+                ✓
+              </span>
+              <span>{cartNotice}</span>
+            </div>
+          )}
 
           {/* Main welcome banner. */}
           <Hero

@@ -4,3 +4,31 @@
 
 /* Lets us use "dark:" classes whenever a parent has the class "dark" */
 @custom-variant dark (&:where(.dark, .dark *));
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  .receipt-print,
+  .receipt-print * {
+    visibility: visible !important;
+  }
+
+  .receipt-print {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 72mm;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .receipt-actions {
+    display: none !important;
+  }
+}
