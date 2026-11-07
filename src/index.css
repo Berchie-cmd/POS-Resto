@@ -6,26 +6,48 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @media print {
-  body * {
-    visibility: hidden !important;
+  @page {
+    size: 80mm 240mm;
+    margin: 0;
   }
 
-  .receipt-print,
-  .receipt-print * {
-    visibility: visible !important;
+  html,
+  body,
+  #root {
+    width: 80mm !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Flatten containers around the receipt and remove unrelated page content. */
+  body *:has(.receipt-print) {
+    display: contents !important;
+  }
+
+  body
+    *:not(:has(.receipt-print)):not(.receipt-print):not(.receipt-print *) {
+    display: none !important;
   }
 
   .receipt-print {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 72mm;
-    max-width: none;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
+    display: block !important;
+    position: static !important;
+    width: 72mm !important;
+    max-width: 72mm !important;
+    margin: 0 auto !important;
+    padding: 4mm !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: white !important;
+    color: black !important;
+    font-size: 10pt !important;
+  }
+
+  .receipt-print li {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   .receipt-actions {
