@@ -471,10 +471,6 @@ function CheckoutSection({
                       placeholder="Enter card number"
                       className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 dark:border-gray-600 dark:bg-gray-900"
                     />
-                    <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                      Demo rule: entering a card applies ₱500 off. Card validity
-                      is not checked.
-                    </p>
                   </div>
                 )}
               </div>
