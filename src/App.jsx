@@ -302,7 +302,7 @@ function CheckoutSection({
           <div>
             <div className="receipt-print mx-auto max-w-md rounded-3xl border border-green-300 bg-white p-8 text-gray-900 shadow-sm dark:border-green-900 dark:bg-white dark:text-gray-900">
               <div className="text-center">
-                <h3 className="text-2xl font-bold">POS Resto</h3>
+                <h3 className="text-2xl font-bold">RD's Fudhaws</h3>
                 <p className="mt-1 text-sm">Order receipt</p>
                 <p className="mt-4 text-left text-sm">
                   Order: {confirmation.orderNumber}
@@ -764,7 +764,7 @@ function App() {
               <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-green-700 dark:text-green-400">
                 About us
               </p>
-              <h2 className="text-3xl font-bold">Welcome to POS Resto</h2>
+              <h2 className="text-3xl font-bold">Welcome to RD's Fudhaws</h2>
               <p className="mt-3 max-w-2xl leading-7 text-gray-600 dark:text-gray-300">
                 We make it easy to browse the menu and find something delicious.
                 Our team is happy to help you choose.
@@ -774,7 +774,7 @@ function App() {
 
           {/* Simple site footer. */}
           <footer className="border-t border-green-200 px-5 py-6 text-center text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400">
-            © 2026 POS Resto · Good food, served with care.
+            © 2026 RD's Fudhaws · Good food, served with care.
           </footer>
         </div>
       )}
