@@ -305,9 +305,10 @@ function CheckoutSection({
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]"
+            // grid-cols-1 keeps the column from growing wider than the phone screen
+            className="grid grid-cols-1 gap-8 lg:grid-cols-[1.2fr_0.8fr]"
           >
-            <div className="rounded-3xl border border-green-200 bg-white p-6 shadow-sm shadow-green-950/5 dark:border-gray-700 dark:bg-gray-800 sm:p-8">
+            <div className="min-w-0 rounded-3xl border border-green-200 bg-white p-6 shadow-sm shadow-green-950/5 dark:border-gray-700 dark:bg-gray-800 sm:p-8">
               <h3 className="text-xl font-bold">Order summary</h3>
 
               {cart.length === 0 ? (
@@ -394,7 +395,7 @@ function CheckoutSection({
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="min-w-0 space-y-6">
               <div className="rounded-3xl border border-green-200 bg-white p-6 shadow-sm shadow-green-950/5 dark:border-gray-700 dark:bg-gray-800 sm:p-8">
                 <h3 className="text-xl font-bold">Payment method</h3>
                 <div className="mt-4 grid gap-3">
@@ -405,11 +406,10 @@ function CheckoutSection({
                   ].map(([value, image, label]) => (
                     <label
                       key={value}
-                      className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition ${
-                        paymentMethod === value
+                      className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition ${paymentMethod === value
                           ? "border-green-600 bg-green-50 dark:bg-green-950/40"
                           : "border-gray-200 dark:border-gray-700"
-                      }`}
+                        }`}
                     >
                       <input
                         type="radio"
