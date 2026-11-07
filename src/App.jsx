@@ -291,9 +291,6 @@ function CheckoutSection({
               by {confirmation.paymentMethod}. Processed by{" "}
               {operatorRole.charAt(0).toUpperCase() + operatorRole.slice(1)}.
             </p>
-            <p className="mt-2 text-sm text-green-900 dark:text-green-300">
-              No payment was actually collected or processed.
-            </p>
             <button
               type="button"
               onClick={() => setConfirmation(null)}
