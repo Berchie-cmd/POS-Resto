@@ -603,6 +603,15 @@ function App() {
   // The navbar uses this value to highlight the selected menu option.
   const [activePage, setActivePage] = useState("FEATURES");
 
+  const cartItemCount = cart.reduce(
+    (count, item) => count + item.quantity,
+    0,
+  );
+  const cartTotalCents = cart.reduce(
+    (total, item) => total + Math.round(item.price * 100) * item.quantity,
+    0,
+  );
+
   useEffect(
     () => () => window.clearTimeout(cartNoticeTimer.current),
     [],
@@ -664,13 +673,14 @@ function App() {
   }
 
   function backToMenu() {
-    setActivePage("DESERTS");
-    window.requestAnimationFrame(() => {
-      document
-        .getElementById("deserts")
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }
+  setActivePage("FOODS");
+
+  window.requestAnimationFrame(() => {
+    document
+      .getElementById("foods")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
 
   return (
     // Tailwind dark-mode styles activate when this wrapper has the "dark" class.
@@ -712,6 +722,30 @@ function App() {
                 ✓
               </span>
               <span>{cartNotice}</span>
+            </div>
+          )}
+
+          {cartItemCount > 0 && activePage !== "CHECKOUT" && (
+            <div
+              role="region"
+              aria-label="Current order"
+              className="fixed bottom-4 left-4 right-4 z-40 mx-auto flex max-w-xl items-center justify-between gap-4 rounded-2xl border border-green-700/20 bg-white p-3 shadow-2xl shadow-green-950/20 dark:border-green-700 dark:bg-gray-900 md:left-60"
+            >
+              <div className="min-w-0 pl-1">
+                <p className="text-xs font-bold uppercase tracking-[0.12em] text-green-700 dark:text-green-400">
+                  Current order
+                </p>
+                <p className="mt-1 truncate font-bold text-gray-950 dark:text-white">
+                  {cartItemCount} {cartItemCount === 1 ? "item" : "items"} · {money.format(cartTotalCents / 100)}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={openCheckout}
+                className="shrink-0 rounded-xl bg-green-700 px-4 py-3 font-bold text-white shadow-md transition hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+              >
+                Check orders
+              </button>
             </div>
           )}
 
