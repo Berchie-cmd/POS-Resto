@@ -202,7 +202,7 @@ function MenuCard({ item, onAdd }) {
 }
 
 // Reusable section for the food, drink, and dessert menus.
-function MenuSection({ id, title, subtitle, items, onAdd }) {
+function MenuSection({ id, title, subtitle, items, onAdd, onCheckout }) {
   return (
     <section id={id} className="scroll-mt-20 px-5 py-16 sm:px-8">
       <div className="mx-auto max-w-6xl">
@@ -217,13 +217,14 @@ function MenuSection({ id, title, subtitle, items, onAdd }) {
             <p className="mt-2 text-gray-600 dark:text-gray-300">{subtitle}</p>
           </div>
 
-          {/* Jump to ordering information further down the page. */}
-          <a
-            href="#checkout"
+          {/* Open checkout as a separate page. */}
+          <button
+            type="button"
+            onClick={onCheckout}
             className="font-semibold text-green-800 hover:text-green-950 dark:text-green-300 dark:hover:text-green-200"
           >
-            How to order <span aria-hidden="true">→</span>
-          </a>
+            Go to checkout <span aria-hidden="true">→</span>
+          </button>
         </div>
 
         {/* Display each menu item in a responsive card grid. */}
@@ -243,6 +244,7 @@ function CheckoutSection({
   onQuantityChange,
   onRemove,
   onComplete,
+  onBack,
 }) {
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [hasDiscountCard, setHasDiscountCard] = useState(false);
@@ -287,6 +289,13 @@ function CheckoutSection({
     <section id="checkout" className="scroll-mt-20 px-5 py-16 sm:px-8">
       <div className="mx-auto max-w-6xl">
         <div className="mb-8">
+          <button
+            type="button"
+            onClick={onBack}
+            className="mb-5 inline-flex items-center gap-2 font-bold text-green-800 hover:text-green-950 dark:text-green-300 dark:hover:text-green-200"
+          >
+            <span aria-hidden="true">←</span> Back to menu
+          </button>
           <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-green-700 dark:text-green-400">
             Review and pay
           </p>
@@ -634,6 +643,35 @@ function App() {
     );
   }
 
+  function navigateTo(label) {
+    setActivePage(label);
+
+    if (label === "CHECKOUT" || label === "ABOUT") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      const sectionId = label === "DESERTS" ? "deserts" : label.toLowerCase();
+      document
+        .getElementById(sectionId)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  function openCheckout() {
+    navigateTo("CHECKOUT");
+  }
+
+  function backToMenu() {
+    setActivePage("DESERTS");
+    window.requestAnimationFrame(() => {
+      document
+        .getElementById("deserts")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
   return (
     // Tailwind dark-mode styles activate when this wrapper has the "dark" class.
     <div className={darkMode ? "dark" : ""}>
@@ -651,7 +689,7 @@ function App() {
             darkMode={darkMode}
             toggleDark={() => setDarkMode((current) => !current)}
             activePage={activePage}
-            onNavigate={setActivePage}
+            onNavigate={navigateTo}
             onLogout={() => {
               setCart([]);
               setOperatorRole("");
@@ -677,6 +715,43 @@ function App() {
             </div>
           )}
 
+          {activePage === "CHECKOUT" ? (
+            <CheckoutSection
+              cart={cart}
+              operatorRole={operatorRole}
+              onQuantityChange={changeQuantity}
+              onRemove={(itemName) =>
+                setCart((currentCart) =>
+                  currentCart.filter((item) => item.name !== itemName),
+                )
+              }
+              onComplete={() => setCart([])}
+              onBack={backToMenu}
+            />
+          ) : activePage === "ABOUT" ? (
+            <section className="min-h-[calc(100vh-4rem)] px-5 py-16 sm:px-8">
+              <div className="mx-auto max-w-3xl">
+                <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-green-700 dark:text-green-400">
+                  About us
+                </p>
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                  Welcome to RD&apos;s Fudhaws
+                </h2>
+                <p className="mt-5 leading-7 text-gray-600 dark:text-gray-300">
+                  RD&apos;s Fudhaws is a point-of-sale system for browsing the menu,
+                  taking orders, selecting payment methods, and producing a receipt.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => navigateTo("FEATURES")}
+                  className="mt-8 rounded-xl bg-green-700 px-5 py-3 font-bold text-white hover:bg-green-800"
+                >
+                  Back to menu
+                </button>
+              </div>
+            </section>
+          ) : (
+          <>
           {/* Main welcome banner. */}
           <Hero
             title="Good food. Good mood."
@@ -720,6 +795,7 @@ function App() {
               subtitle="Freshly prepared picks for a satisfying meal."
               items={menu.foods}
               onAdd={addToCart}
+              onCheckout={openCheckout}
             />
           </div>
 
@@ -729,6 +805,7 @@ function App() {
             subtitle="A refreshing sip to go with your meal."
             items={menu.drinks}
             onAdd={addToCart}
+            onCheckout={openCheckout}
           />
 
           {/* The section ID "deserts" matches the current DESERTS navbar label. */}
@@ -739,43 +816,12 @@ function App() {
               subtitle="Save a little room for our delicious merienda break"
               items={menu.desserts}
               onAdd={addToCart}
+              onCheckout={openCheckout}
             />
           </div>
 
-          {/* Cart summary, payment selection, discount, and order confirmation. */}
-          <CheckoutSection
-            cart={cart}
-            operatorRole={operatorRole}
-            onQuantityChange={changeQuantity}
-            onRemove={(itemName) =>
-              setCart((currentCart) =>
-                currentCart.filter((item) => item.name !== itemName),
-              )
-            }
-            onComplete={() => setCart([])}
-          />
-
-          {/* Restaurant introduction. Update this with your real story and details. */}
-          <section
-            id="about"
-            className="scroll-mt-20 border-t border-green-200 px-5 py-14 dark:border-gray-800 sm:px-8"
-          >
-            <div className="mx-auto max-w-6xl">
-              <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-green-700 dark:text-green-400">
-                About us
-              </p>
-              <h2 className="text-3xl font-bold">Welcome to RD's Fudhaws</h2>
-              <p className="mt-3 max-w-2xl leading-7 text-gray-600 dark:text-gray-300">
-                We make it easy to browse the menu and find something delicious.
-                Our team is happy to help you choose.
-              </p>
-            </div>
-          </section>
-
-          {/* Simple site footer. */}
-          <footer className="border-t border-green-200 px-5 py-6 text-center text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400">
-            © 2026 RD's Fudhaws · Good food, served with care.
-          </footer>
+          </>
+          )}
         </div>
       )}
     </div>
