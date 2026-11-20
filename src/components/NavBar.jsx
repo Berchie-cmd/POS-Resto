@@ -147,6 +147,17 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate, onLogout }) {
                             <button
                                 type="button"
                                 onClick={() => {
+                                    onNavigate("HISTORY");
+                                    setSettingsOpen(false);
+                                    setMenuOpen(false);
+                                }}
+                                className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-bold hover:bg-white/10"
+                            >
+                                Order history
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => {
                                     onNavigate("ABOUT");
                                     setSettingsOpen(false);
                                     setMenuOpen(false);
@@ -167,7 +178,9 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate, onLogout }) {
                                     aria-hidden="true"
                                     className={`relative h-6 w-11 rounded-full transition ${darkMode ? "bg-green-300" : "bg-white/30"}`}
                                 >
-                                    <span className={`absolute top-1 h-4 w-4 rounded-full bg-green-950 transition ${darkMode ? "left-6" : "left-1"}`} />
+                                    <span
+                                        className={`absolute top-1 h-4 w-4 rounded-full bg-green-950 transition ${darkMode ? "left-6" : "left-1"}`}
+                                    />
                                 </span>
                             </button>
                             <button
@@ -186,7 +199,12 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate, onLogout }) {
                         aria-expanded={settingsOpen}
                         className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-bold transition ${settingsOpen ? "bg-white text-green-900" : "text-green-50 hover:bg-white/10"}`}
                     >
-                        <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-current/30 text-lg" aria-hidden="true">⚙</span>
+                        <span
+                            className="flex h-8 w-8 items-center justify-center rounded-lg border border-current/30 text-lg"
+                            aria-hidden="true"
+                        >
+                            ⚙
+                        </span>
                         <span>Settings</span>
                     </button>
                 </div>

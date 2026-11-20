@@ -18,14 +18,16 @@ const menu = {
     {
       image: "/BABY BACKRIBS.jpg",
       name: "BABY BACK RIBS",
-      detail: "Slow-cooked until tender, these ribs are coated in our smoky barbecue glaze and grilled for a rich, savory finish.",
+      detail:
+        "Slow-cooked until tender, these ribs are coated in our smoky barbecue glaze and grilled for a rich, savory finish.",
       price: 110,
       tag: "Made fresh",
     },
     {
       image: "/TAPA.jpg",
       name: "TAPA",
-      detail: "Golden, crispy pork belly with a tender center, served with your choice of sauce for a deliciously savory bite.",
+      detail:
+        "Golden, crispy pork belly with a tender center, served with your choice of sauce for a deliciously savory bite.",
       price: 100,
       tag: "Comfort food",
     },
@@ -61,7 +63,8 @@ const menu = {
     {
       image: "/BANGUS.jpg",
       name: "BANGUS",
-      detail: "A traditional Filipino fish dish, typically grilled or fried and served with a savory sauce",
+      detail:
+        "A traditional Filipino fish dish, typically grilled or fried and served with a savory sauce",
       price: 100, // NOT SURE PRICE
       tag: "Guest favorite",
     },
@@ -265,7 +268,7 @@ function CheckoutSection({
     if (cart.length === 0) return;
 
     const completedAt = new Date();
-    setConfirmation({
+    const completedOrder = {
       orderNumber: `POS-${completedAt.getTime()}`,
       completedAt: completedAt.toLocaleString(),
       items: cart.map((item) => ({ ...item })),
@@ -274,8 +277,10 @@ function CheckoutSection({
       totalCents,
       paymentMethod,
       operatorRole,
-    });
-    onComplete();
+    };
+
+    setConfirmation(completedOrder);
+    onComplete(completedOrder);
   }
 
   function startNewOrder() {
@@ -283,6 +288,7 @@ function CheckoutSection({
     setPaymentMethod("cash");
     setHasDiscountCard(false);
     setDiscountCardNumber("");
+    onBack();
   }
 
   return (
@@ -366,11 +372,13 @@ function CheckoutSection({
                 </div>
                 <p className="pt-2">
                   Payment:{" "}
-                  {{
-                    cash: "Cash",
-                    card: "Card",
-                    "e-wallet": "E-wallet",
-                  }[confirmation.paymentMethod]}
+                  {
+                    {
+                      cash: "Cash",
+                      card: "Card",
+                      "e-wallet": "E-wallet",
+                    }[confirmation.paymentMethod]
+                  }
                 </p>
               </div>
               <p className="mt-6 text-center text-sm">Thank you!</p>
@@ -446,7 +454,9 @@ function CheckoutSection({
                           >
                             −
                           </button>
-                          <span className="w-6 text-center">{item.quantity}</span>
+                          <span className="w-6 text-center">
+                            {item.quantity}
+                          </span>
                           <button
                             type="button"
                             aria-label={`Increase ${item.name} quantity`}
@@ -458,7 +468,10 @@ function CheckoutSection({
                         </div>
 
                         <span className="text-right font-semibold sm:w-20">
-                          {money.format((Math.round(item.price * 100) * item.quantity) / 100)}
+                          {money.format(
+                            (Math.round(item.price * 100) * item.quantity) /
+                              100,
+                          )}
                         </span>
 
                         <button
@@ -504,10 +517,11 @@ function CheckoutSection({
                   ].map(([value, image, label]) => (
                     <label
                       key={value}
-                      className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition ${paymentMethod === value
-                        ? "border-green-600 bg-green-50 dark:bg-green-950/40"
-                        : "border-gray-200 dark:border-gray-700"
-                        }`}
+                      className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition ${
+                        paymentMethod === value
+                          ? "border-green-600 bg-green-50 dark:bg-green-950/40"
+                          : "border-gray-200 dark:border-gray-700"
+                      }`}
                     >
                       <input
                         type="radio"
@@ -598,24 +612,25 @@ function App() {
   const [operatorRole, setOperatorRole] = useState("");
   const [cart, setCart] = useState([]);
   const [cartNotice, setCartNotice] = useState("");
+  const [orderHistory, setOrderHistory] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("rd-order-history") || "[]");
+    } catch {
+      return [];
+    }
+  });
   const cartNoticeTimer = useRef(null);
 
   // The navbar uses this value to highlight the selected menu option.
   const [activePage, setActivePage] = useState("FEATURES");
 
-  const cartItemCount = cart.reduce(
-    (count, item) => count + item.quantity,
-    0,
-  );
+  const cartItemCount = cart.reduce((count, item) => count + item.quantity, 0);
   const cartTotalCents = cart.reduce(
     (total, item) => total + Math.round(item.price * 100) * item.quantity,
     0,
   );
 
-  useEffect(
-    () => () => window.clearTimeout(cartNoticeTimer.current),
-    [],
-  );
+  useEffect(() => () => window.clearTimeout(cartNoticeTimer.current), []);
 
   function addToCart(item) {
     setCart((currentCart) => {
@@ -655,7 +670,7 @@ function App() {
   function navigateTo(label) {
     setActivePage(label);
 
-    if (label === "CHECKOUT" || label === "ABOUT") {
+    if (label === "CHECKOUT" || label === "ABOUT" || label === "HISTORY") {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
@@ -673,14 +688,14 @@ function App() {
   }
 
   function backToMenu() {
-  setActivePage("FOODS");
+    setActivePage("FOODS");
 
-  window.requestAnimationFrame(() => {
-    document
-      .getElementById("foods")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-}
+    window.requestAnimationFrame(() => {
+      document
+        .getElementById("foods")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
 
   return (
     // Tailwind dark-mode styles activate when this wrapper has the "dark" class.
@@ -736,7 +751,8 @@ function App() {
                   Current order
                 </p>
                 <p className="mt-1 truncate font-bold text-gray-950 dark:text-white">
-                  {cartItemCount} {cartItemCount === 1 ? "item" : "items"} · {money.format(cartTotalCents / 100)}
+                  {cartItemCount} {cartItemCount === 1 ? "item" : "items"} ·{" "}
+                  {money.format(cartTotalCents / 100)}
                 </p>
               </div>
               <button
@@ -759,9 +775,92 @@ function App() {
                   currentCart.filter((item) => item.name !== itemName),
                 )
               }
-              onComplete={() => setCart([])}
+              onComplete={(completedOrder) => {
+                setCart([]);
+
+                setOrderHistory((currentHistory) => {
+                  const updatedHistory = [completedOrder, ...currentHistory];
+                  localStorage.setItem(
+                    "rd-order-history",
+                    JSON.stringify(updatedHistory),
+                  );
+                  return updatedHistory;
+                });
+              }}
               onBack={backToMenu}
             />
+          ) : activePage === "HISTORY" ? (
+            <section className="min-h-[calc(100vh-4rem)] px-5 py-16 sm:px-8">
+              <div className="mx-auto max-w-5xl">
+                <div className="mb-8 flex items-center justify-between gap-4">
+                  <h2 className="text-3xl font-bold">Order History</h2>
+
+                  {orderHistory.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOrderHistory([]);
+                        localStorage.removeItem("rd-order-history");
+                      }}
+                      className="rounded-xl border border-red-300 px-4 py-2 font-bold text-red-700"
+                    >
+                      Clear history
+                    </button>
+                  )}
+                </div>
+
+                {orderHistory.length === 0 ? (
+                  <p className="rounded-xl border p-8 text-center text-gray-500">
+                    No completed orders yet.
+                  </p>
+                ) : (
+                  <div className="grid gap-5 lg:grid-cols-2">
+                    {orderHistory.map((order) => (
+                      <article
+                        key={order.orderNumber}
+                        className="rounded-2xl border border-green-200 bg-white p-6"
+                      >
+                        <div className="flex justify-between gap-4">
+                          <div>
+                            <p className="font-bold">{order.orderNumber}</p>
+                            <p className="text-sm text-gray-500">
+                              {order.completedAt}
+                            </p>
+                          </div>
+                          <p className="font-bold">
+                            {money.format(order.totalCents / 100)}
+                          </p>
+                        </div>
+
+                        <ul className="mt-4 space-y-2 border-t pt-4">
+                          {order.items.map((item) => (
+                            <li
+                              key={item.name}
+                              className="flex justify-between"
+                            >
+                              <span>
+                                {item.name} × {item.quantity}
+                              </span>
+                              <span>
+                                {money.format(
+                                  (Math.round(item.price * 100) *
+                                    item.quantity) /
+                                    100,
+                                )}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+
+                        <p className="mt-4 text-sm">
+                          Payment: {order.paymentMethod}
+                        </p>
+                      </article>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
           ) : activePage === "ABOUT" ? (
             <section className="min-h-[calc(100vh-4rem)] px-5 py-16 sm:px-8">
               <div className="mx-auto max-w-3xl">
@@ -772,8 +871,9 @@ function App() {
                   Welcome to RD&apos;s Fudhaws
                 </h2>
                 <p className="mt-5 leading-7 text-gray-600 dark:text-gray-300">
-                  RD&apos;s Fudhaws is a point-of-sale system for browsing the menu,
-                  taking orders, selecting payment methods, and producing a receipt.
+                  RD&apos;s Fudhaws is a point-of-sale system for browsing the
+                  menu, taking orders, selecting payment methods, and producing
+                  a receipt.
                 </p>
                 <button
                   type="button"
@@ -785,76 +885,79 @@ function App() {
               </div>
             </section>
           ) : (
-          <>
-          {/* Main welcome banner. */}
-          <Hero
-            title="Good food. Good mood."
-            subtitle="Discover comforting favorites, refreshing drinks, and sweet treats—all in one place."
-            buttonText="Explore the menu"
-          />
+            <>
+              {/* Main welcome banner. */}
+              <Hero
+                title="Good food. Good mood."
+                subtitle="Discover comforting favorites, refreshing drinks, and sweet treats—all in one place."
+                buttonText="Explore the menu"
+              />
 
-          {/* Website features loaded from homeData.js. */}
-          <section id="features" className="scroll-mt-20 px-5 py-16 sm:px-8">
-            <div className="mx-auto max-w-6xl">
-              <div className="mb-8 text-center">
-                <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-green-700 dark:text-green-400">
-                  A better dining experience
-                </p>
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                  Made for you
-                </h2>
-                <p className="mx-auto mt-3 max-w-2xl text-gray-600 dark:text-gray-300">
-                  Everything you need to explore our menu and enjoy your visit.
-                </p>
+              {/* Website features loaded from homeData.js. */}
+              <section
+                id="features"
+                className="scroll-mt-20 px-5 py-16 sm:px-8"
+              >
+                <div className="mx-auto max-w-6xl">
+                  <div className="mb-8 text-center">
+                    <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-green-700 dark:text-green-400">
+                      A better dining experience
+                    </p>
+                    <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                      Made for you
+                    </h2>
+                    <p className="mx-auto mt-3 max-w-2xl text-gray-600 dark:text-gray-300">
+                      Everything you need to explore our menu and enjoy your
+                      visit.
+                    </p>
+                  </div>
+
+                  <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    {features.map((item) => (
+                      <FeatureCard
+                        key={item.title}
+                        image={item.image}
+                        title={item.title}
+                        description={item.description}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              {/* These IDs match the sidebar links, so clicking a link scrolls here. */}
+              <div className="border-y border-green-200 bg-green-50/80 dark:border-gray-800 dark:bg-gray-900/70">
+                <MenuSection
+                  id="foods"
+                  title="Food Meals"
+                  subtitle="Freshly prepared picks for a satisfying meal."
+                  items={menu.foods}
+                  onAdd={addToCart}
+                  onCheckout={openCheckout}
+                />
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {features.map((item) => (
-                  <FeatureCard
-                    key={item.title}
-                    image={item.image}
-                    title={item.title}
-                    description={item.description}
-                  />
-                ))}
+              <MenuSection
+                id="drinks"
+                title="Drinks"
+                subtitle="A refreshing sip to go with your meal."
+                items={menu.drinks}
+                onAdd={addToCart}
+                onCheckout={openCheckout}
+              />
+
+              {/* The section ID "deserts" matches the current DESERTS navbar label. */}
+              <div className="border-y border-green-200 bg-green-50/80 dark:border-gray-800 dark:bg-gray-900/70">
+                <MenuSection
+                  id="deserts"
+                  title="Merienda Combo"
+                  subtitle="Save a little room for our delicious merienda break"
+                  items={menu.desserts}
+                  onAdd={addToCart}
+                  onCheckout={openCheckout}
+                />
               </div>
-            </div>
-          </section>
-
-          {/* These IDs match the sidebar links, so clicking a link scrolls here. */}
-          <div className="border-y border-green-200 bg-green-50/80 dark:border-gray-800 dark:bg-gray-900/70">
-            <MenuSection
-              id="foods"
-              title="Food Meals"
-              subtitle="Freshly prepared picks for a satisfying meal."
-              items={menu.foods}
-              onAdd={addToCart}
-              onCheckout={openCheckout}
-            />
-          </div>
-
-          <MenuSection
-            id="drinks"
-            title="Drinks"
-            subtitle="A refreshing sip to go with your meal."
-            items={menu.drinks}
-            onAdd={addToCart}
-            onCheckout={openCheckout}
-          />
-
-          {/* The section ID "deserts" matches the current DESERTS navbar label. */}
-          <div className="border-y border-green-200 bg-green-50/80 dark:border-gray-800 dark:bg-gray-900/70">
-            <MenuSection
-              id="deserts"
-              title="Merienda Combo"
-              subtitle="Save a little room for our delicious merienda break"
-              items={menu.desserts}
-              onAdd={addToCart}
-              onCheckout={openCheckout}
-            />
-          </div>
-
-          </>
+            </>
           )}
         </div>
       )}
