@@ -94,7 +94,7 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate, onLogout }) {
             <nav
                 id="main-navigation"
                 aria-label="Main navigation"
-                className={`fixed bottom-0 left-0 top-16 z-40 flex w-[min(20rem,85vw)] flex-col border-r border-green-800/30 bg-linear-to-b from-green-800 to-green-950 p-5 text-white shadow-2xl transition-transform duration-300 ease-out dark:border-white/10 dark:from-gray-950 dark:to-gray-900 md:top-0 md:w-56 md:translate-x-0 ${menuOpen ? "visible translate-x-0" : "invisible -translate-x-full"
+                className={`fixed bottom-0 left-0 top-16 z-40 flex w-[min(20rem,85vw)] flex-col overflow-y-auto border-r border-green-800/30 bg-linear-to-b from-green-800 to-green-950 p-5 text-white shadow-2xl transition-transform duration-300 ease-out dark:border-white/10 dark:from-gray-950 dark:to-gray-900 md:top-0 md:w-56 md:translate-x-0 ${menuOpen ? "visible translate-x-0" : "invisible -translate-x-full"
                     } md:visible`}
             >
                 <div className="mb-8 flex items-center justify-between border-b border-white/15 pb-5 md:pt-5">
@@ -197,15 +197,9 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate, onLogout }) {
                         type="button"
                         onClick={() => setSettingsOpen((open) => !open)}
                         aria-expanded={settingsOpen}
-                        className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-bold transition ${settingsOpen ? "bg-white text-green-900" : "text-green-50 hover:bg-white/10"}`}
+                        className={`flex w-full items-center rounded-xl px-3 py-3 text-left text-sm font-bold transition ${settingsOpen ? "bg-white text-green-900" : "text-green-50 hover:bg-white/10"}`}
                     >
-                        <span
-                            className="flex h-8 w-8 items-center justify-center rounded-lg border border-current/30 text-lg"
-                            aria-hidden="true"
-                        >
-                            ⚙
-                        </span>
-                        <span>Settings</span>
+                        Settings
                     </button>
                 </div>
             </nav>
