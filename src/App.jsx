@@ -6,6 +6,7 @@ import About from "./components/about/About";
 import MenuSection from "./components/menu/MenuSection";
 import ExtractedCheckoutSection from "./components/checkout/CheckoutSection";
 import OrderHistory from "./components/history/OrderHistory";
+import PendingOrders from "./components/pending/PendingOrders";
 import { features } from "./data/homeData";
 import { menu } from "./data/menuData";
 import { money } from "./utils/money";
@@ -25,6 +26,14 @@ function App() {
       return [];
     }
   });
+  const [pendingOrders, setPendingOrders] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("rd-pending-orders") || "[]");
+    } catch {
+      return [];
+    }
+  });
+  const [editingPendingId, setEditingPendingId] = useState(null);
   const cartNoticeTimer = useRef(null);
 
   // The navbar uses this value to highlight the selected menu option.
@@ -76,7 +85,7 @@ function App() {
   function navigateTo(label) {
     setActivePage(label);
 
-    if (label === "CHECKOUT" || label === "ABOUT" || label === "HISTORY") {
+    if (label === "CHECKOUT" || label === "ABOUT" || label === "HISTORY" || label === "PENDING") {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
@@ -123,6 +132,7 @@ function App() {
             onNavigate={navigateTo}
             onLogout={() => {
               setCart([]);
+              setEditingPendingId(null);
               setOperatorRole("");
               setActivePage("FEATURES");
               setIsSignedIn(false);
@@ -183,6 +193,14 @@ function App() {
               }
               onComplete={(completedOrder) => {
                 setCart([]);
+                if (editingPendingId) {
+                  setPendingOrders((currentOrders) => {
+                    const updatedOrders = currentOrders.filter((order) => order.id !== editingPendingId);
+                    localStorage.setItem("rd-pending-orders", JSON.stringify(updatedOrders));
+                    return updatedOrders;
+                  });
+                  setEditingPendingId(null);
+                }
 
                 setOrderHistory((currentHistory) => {
                   const updatedHistory = [completedOrder, ...currentHistory];
@@ -193,7 +211,49 @@ function App() {
                   return updatedHistory;
                 });
               }}
+              onSavePending={() => {
+                const now = new Date();
+                const pendingOrder = {
+                  id: editingPendingId || `pending-${now.getTime()}`,
+                  orderNumber: editingPendingId
+                    ? pendingOrders.find((order) => order.id === editingPendingId)?.orderNumber
+                    : `PENDING-${now.getTime()}`,
+                  createdAt: now.toLocaleString(),
+                  items: cart.map((item) => ({ ...item })),
+                  totalCents: cart.reduce(
+                    (total, item) => total + Math.round(item.price * 100) * item.quantity,
+                    0,
+                  ),
+                };
+                setPendingOrders((currentOrders) => {
+                  const updatedOrders = editingPendingId
+                    ? currentOrders.map((order) => order.id === editingPendingId ? pendingOrder : order)
+                    : [pendingOrder, ...currentOrders];
+                  localStorage.setItem("rd-pending-orders", JSON.stringify(updatedOrders));
+                  return updatedOrders;
+                });
+                setCart([]);
+                setEditingPendingId(null);
+                navigateTo("PENDING");
+              }}
               onBack={backToMenu}
+            />
+          ) : activePage === "PENDING" ? (
+            <PendingOrders
+              orders={pendingOrders}
+              onResume={(order) => {
+                setCart(order.items);
+                setEditingPendingId(order.id);
+                navigateTo("CHECKOUT");
+              }}
+              onDelete={(orderId) => {
+                if (!window.confirm("Delete this pending order?")) return;
+                setPendingOrders((currentOrders) => {
+                  const updatedOrders = currentOrders.filter((order) => order.id !== orderId);
+                  localStorage.setItem("rd-pending-orders", JSON.stringify(updatedOrders));
+                  return updatedOrders;
+                });
+              }}
             />
           ) : activePage === "HISTORY" ? (
             <OrderHistory

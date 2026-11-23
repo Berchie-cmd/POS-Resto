@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { money } from "../../utils/money";
 
-export default function CheckoutSection({ cart, operatorRole, onQuantityChange, onRemove, onComplete, onBack }) {
+export default function CheckoutSection({ cart, operatorRole, onQuantityChange, onRemove, onComplete, onSavePending, onBack }) {
     const [paymentMethod, setPaymentMethod] = useState("cash");
     const [hasDiscountCard, setHasDiscountCard] = useState(false);
     const [discountCardNumber, setDiscountCardNumber] = useState("");
@@ -146,6 +146,7 @@ export default function CheckoutSection({ cart, operatorRole, onQuantityChange, 
                                 <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">Role comes from the signed-in account.</p>
                             </div>
 
+                            <button type="button" disabled={cart.length === 0} onClick={onSavePending} className="w-full rounded-xl border border-amber-500 px-5 py-3 font-bold text-amber-800 hover:bg-amber-50 disabled:cursor-not-allowed disabled:opacity-50 dark:text-amber-300 dark:hover:bg-amber-950/30">Save as pending</button>
                             <button type="submit" disabled={cart.length === 0} className="w-full rounded-xl bg-green-700 px-5 py-4 font-bold text-white shadow-lg transition hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-50">Confirm order · {money.format(totalCents / 100)}</button>
                         </div>
                     </form>

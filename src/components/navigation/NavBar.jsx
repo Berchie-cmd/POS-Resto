@@ -12,7 +12,7 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate, onLogout }) {
     const [settingsOpen, setSettingsOpen] = useState(false);
 
     // Checkout is a separate page; the remaining links scroll within the menu page.
-    const links = ["FEATURES", "FOODS", "DRINKS", "DESERTS", "CHECKOUT"];
+    const links = ["FEATURES", "FOODS", "DRINKS", "DESERTS", "CHECKOUT", "PENDING"];
 
     // Allow keyboard users to close the drawer with Escape.
     useEffect(() => {
@@ -27,7 +27,7 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate, onLogout }) {
     function navigateTo(label) {
         onNavigate(label);
 
-        if (label !== "CHECKOUT") {
+        if (label !== "CHECKOUT" && label !== "PENDING") {
             const sectionId = label === "DESERTS" ? "deserts" : label.toLowerCase();
             const section = document.getElementById(sectionId);
 
