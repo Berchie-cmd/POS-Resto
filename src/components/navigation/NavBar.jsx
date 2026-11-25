@@ -13,6 +13,42 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate, onLogout }) {
 
     // Checkout is a separate page; the remaining links scroll within the menu page.
     const links = ["FEATURES", "FOODS", "DRINKS", "DESERTS", "CHECKOUT", "PENDING"];
+    const linkIcons = {
+        FEATURES: (
+            <path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3z" />
+        ),
+        FOODS: (
+            <>
+                <path d="M7 3v7M4.5 3v4.5A2.5 2.5 0 0 0 7 10v11M9.5 3v4.5A2.5 2.5 0 0 1 7 10" />
+                <path d="M15 3v18M15 3c3.5 1.5 5 4.5 5 8h-5" />
+            </>
+        ),
+        DRINKS: (
+            <>
+                <path d="M7 3h10l-1 18H8L7 3zM7.5 8h9" />
+                <path d="M16 3l2-2M8.5 6c1.5-1 4.5-1 6 0" />
+            </>
+        ),
+        DESERTS: (
+            <>
+                <path d="M4 11h16v3a8 8 0 0 1-16 0v-3zM7 11c0-3 2-5 5-5s5 2 5 5" />
+                <path d="M12 6V3M9 5l1-2M15 5l-1-2" />
+            </>
+        ),
+        CHECKOUT: (
+            <>
+                <circle cx="9" cy="20" r="1.5" />
+                <circle cx="18" cy="20" r="1.5" />
+                <path d="M3 4h2l2.5 11h11l2-7H7" />
+            </>
+        ),
+        PENDING: (
+            <>
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 7v5l3.5 2" />
+            </>
+        ),
+    };
 
     // Allow keyboard users to close the drawer with Escape.
     useEffect(() => {
@@ -44,9 +80,17 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate, onLogout }) {
             {/* Top bar: restaurant name on the left, controls on the right. */}
             <header className="fixed inset-x-0 top-0 z-50 h-16 border-b border-green-800/40 bg-green-800 text-white shadow-lg shadow-green-950/15 transition-colors duration-300 dark:border-white/10 dark:bg-gray-950 md:left-56">
                 <div className="flex h-full items-center justify-between gap-2 px-4 sm:px-6">
-                    <h1 className="truncate text-lg font-extrabold tracking-tight sm:text-2xl">
-                        RD&apos;s Fudhaws
-                    </h1>
+                    <div className="flex min-w-0 items-center gap-2.5">
+                        <img
+                            src="/restaurant-logo.jpg"
+                            alt=""
+                            aria-hidden="true"
+                            className="h-9 w-9 shrink-0 rounded-full border border-white/30 object-cover shadow-sm sm:h-10 sm:w-10"
+                        />
+                        <h1 className="truncate text-lg font-extrabold tracking-tight sm:text-2xl">
+                            RD&apos;s Fudhaws
+                        </h1>
+                    </div>
 
                     <div className="flex shrink-0 items-center gap-2">
                         {/* Mobile menu toggle with an animated menu/close icon. */}
@@ -98,12 +142,12 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate, onLogout }) {
                     } md:visible`}
             >
                 <div className="mb-8 flex items-center justify-between border-b border-white/15 pb-5 md:pt-5">
-                    <div>
-                        <p className="text-xs font-bold uppercase tracking-[0.2em] text-green-200">
-                            Restaurant POS
-                        </p>
-                        <p className="mt-1 text-xl font-extrabold">Navigation</p>
-                    </div>
+                        <div>
+                            <p className="text-xs font-bold uppercase tracking-[0.2em] text-green-200">
+                                Restaurant POS
+                            </p>
+                            <p className="mt-1 text-xl font-extrabold">Navigation</p>
+                        </div>
 
                     <button
                         type="button"
@@ -134,6 +178,18 @@ function Navbar({ darkMode, toggleDark, activePage, onNavigate, onLogout }) {
                                             : "text-green-50 hover:translate-x-1 hover:bg-white/10"
                                         }`}
                                 >
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill={label === "FEATURES" ? "currentColor" : "none"}
+                                        stroke="currentColor"
+                                        strokeWidth="1.8"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="h-5 w-5 shrink-0"
+                                        aria-hidden="true"
+                                    >
+                                        {linkIcons[label]}
+                                    </svg>
                                     <span className="flex-1">{label}</span>
                                 </button>
                             </li>
