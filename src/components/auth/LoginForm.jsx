@@ -17,6 +17,11 @@ function LoginForm({ onLogin, darkMode = false, toggleDark }) {
       return;
     }
 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setValidationMessage("Enter a valid email address (example staff@rdsfudhaws.com).");
+      return;
+    }
+
     setValidationMessage("");
     onLogin({ role, username });
   }
@@ -145,6 +150,8 @@ function LoginForm({ onLogin, darkMode = false, toggleDark }) {
               <input
                 name="email"
                 type="email"
+                pattern="[^\\s@]+@[^\\s@]+\\.[^\\s@]+"
+                title="Enter a valid email address with an @ symbol"
                 required
                 autoComplete="email"
                 placeholder="staff@rdsfudhaws.com"

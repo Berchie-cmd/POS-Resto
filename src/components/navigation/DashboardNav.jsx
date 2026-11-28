@@ -20,6 +20,7 @@ export default function DashboardNav({
   operatorName = "",
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   function navigate(page) {
     onNavigate(page);
@@ -101,14 +102,53 @@ export default function DashboardNav({
         </div>
 
         <div className="space-y-2 border-t border-[#BFC9BF] pt-4 dark:border-[#3F4942]">
-          <button
-            type="button"
-            onClick={toggleDark}
-            className="flex min-h-11 w-full items-center justify-between rounded-lg bg-[#EBEFE9] px-3 text-sm font-semibold dark:bg-[#1C211D]"
-          >
-            <span>Dark Mode</span>
-            <span className="text-xs text-[#005230] dark:text-[#8AD7A7]">{darkMode ? "ON" : "OFF"}</span>
-          </button>
+          {operatorRole === "owner" && (
+            <div className="space-y-2">
+              {settingsOpen && (
+                <div className="space-y-1 rounded-lg bg-[#EBEFE9] p-2 dark:bg-[#1C211D]">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigate("HISTORY");
+                      setSettingsOpen(false);
+                    }}
+                    className="min-h-10 w-full rounded-lg px-3 text-left text-sm font-semibold hover:bg-[#E6E9E3] dark:hover:bg-[#272B27]"
+                  >
+                    Order History
+                  </button>
+                  <button
+                    type="button"
+                    onClick={toggleDark}
+                    className="flex min-h-10 w-full items-center justify-between rounded-lg px-3 text-left text-sm font-semibold hover:bg-[#E6E9E3] dark:hover:bg-[#272B27]"
+                  >
+                    <span>Dark Mode</span>
+                    <span className="text-xs text-[#005230] dark:text-[#8AD7A7]">{darkMode ? "ON" : "OFF"}</span>
+                  </button>
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => setSettingsOpen((open) => !open)}
+                aria-expanded={settingsOpen}
+                className={`flex min-h-11 w-full items-center justify-between rounded-lg px-3 text-sm font-semibold ${settingsOpen ? "bg-[#005230] text-white dark:bg-[#8AD7A7] dark:text-[#003920]" : "bg-[#EBEFE9] hover:bg-[#E6E9E3] dark:bg-[#1C211D] dark:hover:bg-[#272B27]"}`}
+              >
+                <span>Settings</span>
+                <span aria-hidden="true">{settingsOpen ? "⌃" : "⌄"}</span>
+              </button>
+            </div>
+          )}
+
+          {operatorRole !== "owner" && (
+            <button
+              type="button"
+              onClick={toggleDark}
+              className="flex min-h-11 w-full items-center justify-between rounded-lg bg-[#EBEFE9] px-3 text-sm font-semibold dark:bg-[#1C211D]"
+            >
+              <span>Dark Mode</span>
+              <span className="text-xs text-[#005230] dark:text-[#8AD7A7]">{darkMode ? "ON" : "OFF"}</span>
+            </button>
+          )}
+
           <button
             type="button"
             onClick={onLogout}

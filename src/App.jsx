@@ -95,6 +95,10 @@ function App() {
   }
 
   function navigateTo(label) {
+    if (label === "HISTORY" && operatorRole !== "owner") {
+      return;
+    }
+
     setActivePage(label);
 
     if (label === "CHECKOUT" || label === "ABOUT" || label === "HISTORY" || label === "PENDING") {
@@ -235,6 +239,7 @@ function App() {
                   currentCart.filter((item) => item.name !== itemName),
                 )
               }
+              onClear={() => setCart([])}
               onComplete={(completedOrder) => {
                 setCart([]);
                 if (editingPendingId) {
