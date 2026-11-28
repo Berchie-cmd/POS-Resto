@@ -78,8 +78,8 @@ export default function CheckoutSection({ cart, operatorRole, onQuantityChange, 
                     </div>
                 ) : (
                     <>
-                        <header className="mb-6 flex flex-wrap items-center justify-between gap-4">
-                            <div className="flex items-center gap-4">
+                        <header className="mb-6 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-4">
+                            <div className="flex items-center gap-3 sm:gap-4">
                                 <button type="button" onClick={onBack} className="inline-flex min-h-9 items-center gap-2 rounded-full bg-[#E6E9E3] px-4 py-2 text-xs font-semibold text-[#181D19] hover:bg-[#C8E7D0] dark:bg-[#272B27] dark:text-[#E0E3DE] dark:hover:bg-[#314D3B]">
                                     <span aria-hidden="true">←</span>
                                     <span>Back to Menu</span>
@@ -89,11 +89,11 @@ export default function CheckoutSection({ cart, operatorRole, onQuantityChange, 
                                     <p className="font-mono text-xs text-[#005230] dark:text-[#8AD7A7]">#ORD-1042 • Dine-in • Table 04</p>
                                 </div>
                             </div>
-                            <button type="button" onClick={onClear} disabled={cart.length === 0} className="rounded-lg border border-[#BFC9BF] px-4 py-2 text-sm font-semibold text-[#BA1A1A] hover:bg-[#FFDAD6]/40 disabled:cursor-not-allowed disabled:opacity-40 dark:border-[#3F4942] dark:text-[#FFB4AB]">Clear Order</button>
+                            <button type="button" onClick={onClear} disabled={cart.length === 0} className="self-end rounded-lg border border-[#BFC9BF] px-4 py-2 text-sm font-semibold text-[#BA1A1A] hover:bg-[#FFDAD6]/40 disabled:cursor-not-allowed disabled:opacity-40 sm:self-auto dark:border-[#3F4942] dark:text-[#FFB4AB]">Clear Order</button>
                         </header>
 
                         <form onSubmit={handleSubmit} className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
-                            <section className="flex min-h-[240px] flex-col gap-4 rounded-lg border border-[#BFC9BF] bg-white p-5 dark:border-[#3F4942] dark:bg-[#181D19] lg:col-span-7">
+                            <section className="flex min-h-[240px] flex-col gap-4 rounded-lg border border-[#BFC9BF] bg-white p-3 sm:p-5 dark:border-[#3F4942] dark:bg-[#181D19] lg:col-span-7">
                                 <div className="flex items-center justify-between border-b border-[#BFC9BF] pb-3 dark:border-[#3F4942]">
                                     <h2 className="text-lg font-semibold">Order Items</h2>
                                     <span className="font-mono text-xs text-[#6F7A71] dark:text-[#BFC9BF]">{cart.reduce((count, item) => count + item.quantity, 0)} items</span>
@@ -105,15 +105,13 @@ export default function CheckoutSection({ cart, operatorRole, onQuantityChange, 
                                 ) : (
                                     <div className="flex flex-col gap-2">
                                         {cart.map((item) => (
-                                            <div key={item.name} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[#BFC9BF] bg-[#F1F5EF] p-3 dark:border-[#3F4942] dark:bg-[#1C211D]">
-                                                <div className="flex min-w-0 flex-1 items-center gap-3">
-                                                    <img src={item.image} alt="" aria-hidden="true" className="h-14 w-14 shrink-0 rounded-md object-cover" />
-                                                    <div className="min-w-0">
-                                                        <p className="truncate text-base font-semibold">{item.name}</p>
-                                                        <p className="text-xs text-[#6F7A71] dark:text-[#BFC9BF]">{item.category || "Menu"} • {money.format(item.price)} each</p>
-                                                    </div>
+                                            <div key={item.name} className="grid grid-cols-[56px_minmax(0,1fr)] items-center gap-3 rounded-lg border border-[#BFC9BF] bg-[#F1F5EF] p-3 sm:grid-cols-[56px_minmax(0,1fr)_auto] dark:border-[#3F4942] dark:bg-[#1C211D]">
+                                                <img src={item.image} alt="" aria-hidden="true" className="h-14 w-14 shrink-0 rounded-md object-cover" />
+                                                <div className="min-w-0">
+                                                    <p className="truncate text-base font-semibold">{item.name}</p>
+                                                    <p className="text-xs text-[#6F7A71] dark:text-[#BFC9BF]">{item.category || "Menu"} • {money.format(item.price)} each</p>
                                                 </div>
-                                                <div className="flex items-center gap-4">
+                                                <div className="col-span-2 grid grid-cols-[96px_minmax(64px,1fr)_32px] items-center gap-2 sm:col-span-1 sm:col-start-3 sm:row-start-1 sm:flex sm:w-auto sm:items-center sm:gap-4">
                                                     <div className="flex items-center gap-1">
                                                         <button type="button" aria-label={`Decrease ${item.name} quantity`} onClick={() => onQuantityChange(item.name, -1)} className="grid h-8 w-8 place-items-center rounded-md bg-[#E6E9E3] text-lg font-semibold dark:bg-[#272B27]">−</button>
                                                         <span className="w-6 text-center font-mono text-sm tabular-nums">{item.quantity}</span>
@@ -130,7 +128,7 @@ export default function CheckoutSection({ cart, operatorRole, onQuantityChange, 
                                 )}
                             </section>
 
-                            <section className="flex flex-col gap-6 rounded-lg border border-[#BFC9BF] bg-white p-5 dark:border-[#3F4942] dark:bg-[#181D19] lg:col-span-5">
+                            <section className="flex flex-col gap-6 rounded-lg border border-[#BFC9BF] bg-white p-3 sm:p-5 dark:border-[#3F4942] dark:bg-[#181D19] lg:col-span-5">
                                 <h2 className="border-b border-[#BFC9BF] pb-3 text-lg font-semibold dark:border-[#3F4942]">Payment Details</h2>
                                 <div className="flex flex-col gap-1">
                                     <div className="flex justify-between text-sm text-[#6F7A71] dark:text-[#BFC9BF]"><span>Subtotal</span><span className="font-mono tabular-nums text-[#181D19] dark:text-[#E0E3DE]">{money.format(subtotalCents / 100)}</span></div>
